@@ -2268,6 +2268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6918026645722173362}
   - component: {fileID: 2336701320031914875}
+  - component: {fileID: 1042713006586403902}
   m_Layer: 0
   m_Name: Dragon 1
   m_TagString: Untagged
@@ -2313,6 +2314,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1042713006586403902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4876261403507905859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d6a6efb27f2a04fbacd986c108b0e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  leftRightDistance: 10
+  changeChanceDirection: 0.01
+  timeBetweenAttacks: 2
+  dragonEgg: {fileID: 7185654300413770698, guid: 870c75ed07aa36c47ac962a117b271a9, type: 3}
 --- !u!1 &4896359983361750282
 GameObject:
   m_ObjectHideFlags: 0

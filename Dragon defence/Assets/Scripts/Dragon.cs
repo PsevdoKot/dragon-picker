@@ -14,7 +14,7 @@ public class Dragon : MonoBehaviour
 
     void Start()
     {
-        Invoke("DropEgg", 2f);
+        // Invoke("DropEgg", 2f);
     }
 
     void Update()

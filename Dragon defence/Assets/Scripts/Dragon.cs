@@ -4,33 +4,46 @@ using UnityEngine;
 
 public class Dragon : MonoBehaviour
 {
-    [SerializeField] private float speed = 4f;
-    [SerializeField] private float leftRightDistance = 10f;
-    [SerializeField] private float changeChanceDirection = 0.01f;
-    [SerializeField] private float timeBetweenAttacks = 2f;
-    [SerializeField] private GameObject dragonEgg;
+    private Animator anim;
+    [SerializeField] private GameObject dragonFireball;
 
+    public int HP { get; private set; }
+
+    private bool isActive = true;
     private float moveDirection = 1;
+    private float attackTimer;
+    [SerializeField] private float speed = 4f;
+    [SerializeField] private float maxLeftRightDistance = 10f;
+    [SerializeField] private float changeChanceDirection = 0.01f;
+    [SerializeField] private float timeBetweenAttacks = 5f;
 
     void Start()
     {
-        // Invoke("DropEgg", 2f);
+        attackTimer = timeBetweenAttacks;
+        anim = GetComponent<Animator>();
+        // Invoke("Attack", 2f);
     }
 
     void Update()
     {
-        var pos = transform.position;
-        pos.x += moveDirection * speed * Time.deltaTime;
-        transform.position = pos;
+        if (!isActive) return;
 
-        if (pos.x < -leftRightDistance)
+        if (HP < 0)
         {
-            moveDirection = 1;
+            Die();
         }
-        else if (pos.x > leftRightDistance)
+
+        if (attackTimer > 0)
         {
-            moveDirection = -1;
+            Attack();
+            attackTimer = timeBetweenAttacks;
         }
+        else
+        {
+            attackTimer -= Time.deltaTime;
+        }
+
+        Move();
     }
 
     private void FixedUpdate()
@@ -41,10 +54,57 @@ public class Dragon : MonoBehaviour
         }
     }
 
-    private void DropEgg()
+    private void Move()
     {
-        var egg = Instantiate<GameObject>(dragonEgg);
-        egg.transform.position = transform.position + new Vector3(0f, 5f, 0f);
-        Invoke("DropEgg", timeBetweenAttacks);
+        var pos = transform.position;
+        pos.x += moveDirection * speed * Time.deltaTime;
+        transform.position = pos;
+
+        if (pos.x < -maxLeftRightDistance)
+        {
+            moveDirection = 1;
+        }
+        else if (pos.x > maxLeftRightDistance)
+        {
+            moveDirection = -1;
+        } // добавить отсутствие движения md=0
+
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation()
+    {
+        if (moveDirection > 0)
+        {
+            anim.SetBool("moovingLeft", true);
+            anim.SetBool("moovingRight", false);
+        }
+        else if (moveDirection < 0)
+        {
+            anim.SetBool("moovingRight", true);
+            anim.SetBool("moovingLeft", false);
+        }
+        else
+        {
+            anim.SetBool("moovingLeft", false);
+            anim.SetBool("moovingRight", false);
+        }
+    }
+
+    private void Attack()
+    {
+        var fireball = Instantiate<GameObject>(dragonFireball);
+        fireball.transform.position = transform.position;
+        Invoke("Attack", timeBetweenAttacks);
+    }
+
+    private void TakeDamage()
+    {
+        anim.SetTrigger("hitted");
+    }
+
+    private void Die()
+    {
+        anim.SetTrigger("dying");
     }
 }

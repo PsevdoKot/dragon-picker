@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Fight : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
+
+    // public void PlayerLose()
+    // {
+    //     LoadDataToSave(int.Parse(scoreText.text));
+    //     YandexGame.NewLeaderboardScores("TopPlayersScore", YandexGame.savesData.playerScore);
+    //     SceneManager.LoadScene("Menu");
+    // }
 }

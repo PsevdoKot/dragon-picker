@@ -10,30 +10,24 @@ public class Dragon : MonoBehaviour
     public int HP { get; private set; }
 
     private bool isActive = true;
-    private float moveDirection = 1;
+    private int moveDirection = 1;
     private float attackTimer;
-    [SerializeField] private float speed = 4f;
+    [SerializeField] private float speed = 0.2f;
     [SerializeField] private float maxLeftRightDistance = 10f;
-    [SerializeField] private float changeChanceDirection = 0.01f;
-    [SerializeField] private float timeBetweenAttacks = 5f;
+    [SerializeField] private float timeToStartAttacking = 20f;
+    [SerializeField] private float timeBetweenAttacks = 10f;
 
     void Start()
     {
-        attackTimer = timeBetweenAttacks;
+        attackTimer = timeToStartAttacking;
         anim = GetComponent<Animator>();
-        // Invoke("Attack", 2f);
     }
 
     void Update()
     {
         if (!isActive) return;
 
-        if (HP < 0)
-        {
-            Die();
-        }
-
-        if (attackTimer > 0)
+        if (attackTimer < 0)
         {
             Attack();
             attackTimer = timeBetweenAttacks;
@@ -46,65 +40,92 @@ public class Dragon : MonoBehaviour
         Move();
     }
 
-    private void FixedUpdate()
-    {
-        if (Random.value < changeChanceDirection)
-        {
-            moveDirection = -moveDirection;
-        }
-    }
-
     private void Move()
     {
-        var pos = transform.position;
-        pos.x += moveDirection * speed * Time.deltaTime;
-        transform.position = pos;
+        var movementVector = RandomPointOnUnitSphere(Time.time);
+        CalculateMoveDirection(movementVector);
+        transform.Translate(movementVector * speed * Time.deltaTime);
 
-        if (pos.x < -maxLeftRightDistance)
-        {
-            moveDirection = 1;
-        }
-        else if (pos.x > maxLeftRightDistance)
-        {
-            moveDirection = -1;
-        } // добавить отсутствие движения md=0
+        // ограничить движения в определённой зоне
 
         UpdateAnimation();
     }
 
-    private void UpdateAnimation()
+    private Vector3 RandomPointOnUnitSphere(float time)
     {
-        if (moveDirection > 0)
+        float x = Mathf.PerlinNoise(time, 925714);
+        float z = Mathf.PerlinNoise(time, 345318);
+
+        Vector3 vector = new(x, 0, z);
+
+        return Vector3.Normalize(vector);
+    }
+
+    private void CalculateMoveDirection(Vector3 movementVector)
+    {
+        if (movementVector.x > 0.2)
         {
-            anim.SetBool("moovingLeft", true);
-            anim.SetBool("moovingRight", false);
+            moveDirection = 1;
         }
-        else if (moveDirection < 0)
+        else if (movementVector.x < -0.2)
         {
-            anim.SetBool("moovingRight", true);
-            anim.SetBool("moovingLeft", false);
+            moveDirection = -1;
         }
         else
         {
-            anim.SetBool("moovingLeft", false);
-            anim.SetBool("moovingRight", false);
+            moveDirection = 0;
         }
+    }
+
+    private void UpdateAnimation()
+    {
+        anim.SetInteger("moveDirection", moveDirection);
+        // if (moveDirection > 0)
+        // {
+        //     anim.SetBool("moovingLeft", true);
+        //     anim.SetBool("moovingRight", false);
+        // }
+        // else if (moveDirection < 0)
+        // {
+        //     anim.SetBool("moovingRight", true);
+        //     anim.SetBool("moovingLeft", false);
+        // }
+        // else
+        // {
+        //     anim.SetBool("moovingLeft", false);
+        //     anim.SetBool("moovingRight", false);
+        // }
     }
 
     private void Attack()
     {
         var fireball = Instantiate<GameObject>(dragonFireball);
         fireball.transform.position = transform.position;
-        Invoke("Attack", timeBetweenAttacks);
     }
 
-    private void TakeDamage()
+    public void TakeDamage(int damageAmount)
     {
-        anim.SetTrigger("hitted");
+        HP -= damageAmount;
+        if (HP < 0)
+        {
+            Die();
+        }
+        else
+        {
+            anim.SetTrigger("hitted");
+        }
     }
 
     private void Die()
     {
+        // приземлить дракона
+        isActive = false;
         anim.SetTrigger("dying");
+        StartCoroutine("AfterDeath", 3f);
+    }
+
+    private void AfterDeath()
+    {
+        Fight.Instance.PlayerWin();
     }
 }

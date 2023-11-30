@@ -5,6 +5,10 @@ using UnityEngine;
 public class WaterTotem : Totem
 {
     public readonly TotemType type = TotemType.Water;
+    public override float manaCost { get; protected set; } = 30;
+    protected override float timeBetweenActions { get; set; } = 10;
+
+    [SerializeField] private float manaIncresingAmount;
 
     protected override void Start()
     {
@@ -18,6 +22,7 @@ public class WaterTotem : Totem
 
     protected override void Action()
     {
-        // Добавить скорость восстановления маны
+        base.Action();
+        Player.Instance.IncreaseMana(manaIncresingAmount);
     }
 }

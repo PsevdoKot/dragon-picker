@@ -5,6 +5,10 @@ using UnityEngine;
 public class FireTotem : Totem
 {
     public readonly TotemType type = TotemType.Fire;
+    public override float manaCost { get; protected set; } = 40;
+    protected override float timeBetweenActions { get; set; } = 15;
+
+    [SerializeField] private GameObject firaballPrefab;
 
     protected override void Start()
     {
@@ -18,6 +22,7 @@ public class FireTotem : Totem
 
     protected override void Action()
     {
-        // Обозначить, что fireball готов и можно выбрать направление атаки
+        base.Action();
+        // Выстрелить fireball`ом по направлению курсора
     }
 }

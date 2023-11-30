@@ -15,6 +15,7 @@ public class PlayerBars : MonoBehaviour
 
     void Update()
     {
-        // healthBar.fillAmount = player.HP / player.maxHP;
+        mana.fillAmount = Player.Instance.mana / Player.Instance.maxMana;
+        health.fillAmount = Player.Instance.HP / Player.Instance.maxHP;
     }
 }

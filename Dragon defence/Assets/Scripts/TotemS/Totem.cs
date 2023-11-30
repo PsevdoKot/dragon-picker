@@ -1,14 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Totem : MonoBehaviour
 {
+    public static Totem[] Instances;
+
+    public int placeId { get; set; }
+    public bool isReady { get; private set; } = false;
     public int HP { get; private set; } = 100;
+    [SerializeField] abstract public float manaCost { get; protected set; }
+    [SerializeField] abstract protected float timeBetweenActions { get; set; }
 
     private bool isActive = true;
     private float actionTimer;
-    [SerializeField] private float timeBetweenActions;
+
+    public void Init(int placeId)
+    {
+        Instances ??= new Totem[6];
+        Instances[placeId] = this;
+        // добавить ui
+    }
 
     protected virtual void Start()
     {
@@ -21,30 +34,43 @@ public abstract class Totem : MonoBehaviour
 
         if (HP < 0)
         {
-            Destroy();
+            DestroyTotem();
         }
 
-        if (actionTimer > 0)
+        if (!isReady)
         {
-            Action();
-            actionTimer = timeBetweenActions;
-        }
-        else
-        {
-            actionTimer -= Time.deltaTime;
+            if (actionTimer < 0)
+            {
+                ShowReadiness();
+                actionTimer = timeBetweenActions;
+            }
+            else
+            {
+                actionTimer -= Time.deltaTime;
+            }
         }
     }
 
-    protected abstract void Action();
+    private void ShowReadiness()
+    {
+        isReady = true;
+    }
+
+    protected virtual void Action()
+    {
+        isReady = false;
+    }
 
     public void TakeDamage(int damageAmount)
     {
         HP -= damageAmount;
     }
 
-    protected void Destroy()
+    protected virtual void DestroyTotem()
     {
         isActive = false;
-        // gameobject.Destroy();
+        Instances[placeId] = null;
+        // убрать ui
+        Destroy(gameObject);
     }
 }

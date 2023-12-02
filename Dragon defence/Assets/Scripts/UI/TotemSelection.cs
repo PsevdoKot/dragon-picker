@@ -5,31 +5,19 @@ using UnityEngine.UI;
 
 public class TotemSelection : MonoBehaviour
 {
-    public static TotemSelection Instance;
+    public static TotemSelection Instance { get; private set; }
 
-    [SerializeField] private GameObject waterTotemPrefab;
-    [SerializeField] private GameObject fireTotemPrefab;
-    [SerializeField] private GameObject airTotemPrefab;
-    [SerializeField] private GameObject earthTotemPrefab;
     [SerializeField] private Button waterBtn;
     [SerializeField] private Button fireBtn;
     [SerializeField] private Button airBtn;
     [SerializeField] private Button earthBtn;
+    [SerializeField] private Button cancelBtn;
 
-    private int totemPlaceId;
-    [SerializeField] private int yTotemLocalPos;
-    [SerializeField] private int zTotemLocalPos;
-
-    private readonly Dictionary<int, float> xTotemLocalPosByPlaceId = new()
-        { {0, 0}, {1, 0.85f}, {2, 1.75f}, {3, 2.65f}, {4, 3.6f}, {5, 4.55f} };
+    private int currentTotemPlaceId;
 
     void Start()
     {
         Instance = this;
-        waterBtn.onClick.AddListener(() => { EndTotemSelection(TotemType.Water); });
-        fireBtn.onClick.AddListener(() => { EndTotemSelection(TotemType.Fire); });
-        airBtn.onClick.AddListener(() => { EndTotemSelection(TotemType.Air); });
-        earthBtn.onClick.AddListener(() => { EndTotemSelection(TotemType.Earth); });
     }
 
     private void ShowButtons(bool state)
@@ -38,30 +26,40 @@ public class TotemSelection : MonoBehaviour
         fireBtn.gameObject.SetActive(state);
         airBtn.gameObject.SetActive(state);
         earthBtn.gameObject.SetActive(state);
+        cancelBtn.gameObject.SetActive(state);
+
+        if (state)
+        {
+            waterBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Water));
+            fireBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Fire));
+            airBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Air));
+            earthBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Earth));
+            cancelBtn.onClick.AddListener(CancelTotemSelection);
+        }
+        else
+        {
+            waterBtn.onClick.RemoveAllListeners();
+            fireBtn.onClick.RemoveAllListeners();
+            airBtn.onClick.RemoveAllListeners();
+            earthBtn.onClick.RemoveAllListeners();
+            cancelBtn.onClick.RemoveAllListeners();
+        }
     }
 
     public void StartTotemSelection(int totemPlaceId)
     {
-        this.totemPlaceId = totemPlaceId;
+        currentTotemPlaceId = totemPlaceId;
         ShowButtons(true);
+    }
+
+    private void CancelTotemSelection()
+    {
+        ShowButtons(false);
     }
 
     private void EndTotemSelection(TotemType type)
     {
-        GameObject totemGO = type switch
-        {
-            TotemType.Fire => Instantiate(fireTotemPrefab),
-            TotemType.Air => Instantiate(airTotemPrefab),
-            TotemType.Earth => Instantiate(earthTotemPrefab),
-            _ => Instantiate(waterTotemPrefab),
-        };
-        totemGO.transform.localPosition = new Vector3(xTotemLocalPosByPlaceId[totemPlaceId], yTotemLocalPos, zTotemLocalPos);
-
-        var totem = totemGO.GetComponent<Totem>();
-        totem.Init(totemPlaceId);
-        Player.Instance.PlaceTotem(totem.manaCost);
-
+        TotemsRow.Instance.AddTotem(type, currentTotemPlaceId);
         ShowButtons(false);
     }
-
 }

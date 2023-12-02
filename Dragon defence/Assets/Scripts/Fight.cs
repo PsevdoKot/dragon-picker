@@ -6,7 +6,7 @@ using YG;
 
 public class Fight : MonoBehaviour
 {
-    public static Fight Instance;
+    public static Fight Instance { get; private set; }
 
     void Start()
     {

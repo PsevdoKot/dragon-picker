@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class FireTotem : Totem
 {
-    public readonly TotemType type = TotemType.Fire;
+    [SerializeField] private GameObject fire;
+
+    public override TotemType type { get; } = TotemType.Fire;
     public override float manaCost { get; protected set; } = 40;
-    protected override float timeBetweenActions { get; set; } = 15;
+    protected override float timeBetweenActions { get; set; } = 5;
 
     [SerializeField] private GameObject firaballPrefab;
 
@@ -20,9 +22,22 @@ public class FireTotem : Totem
         base.Update();
     }
 
+    protected override void ShowReadiness()
+    {
+        base.ShowReadiness();
+        fire.SetActive(true);
+    }
+
+    public override void PrepareAction()
+    {
+
+    }
+
     protected override void Action()
     {
         base.Action();
+        fire.SetActive(false);
         // Выстрелить fireball`ом по направлению курсора
+        // Instantiate(firaballPrefab);
     }
 }

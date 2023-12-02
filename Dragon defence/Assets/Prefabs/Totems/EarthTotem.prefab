@@ -9679,13 +9679,14 @@ GameObject:
   - component: {fileID: 478342}
   - component: {fileID: 3381524}
   - component: {fileID: 2351056}
+  - component: {fileID: 851105192688596958}
   m_Layer: 0
   m_Name: EarthTotem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &478342
 Transform:
   m_ObjectHideFlags: 0
@@ -9694,14 +9695,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133532}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000012964949, y: 0.8050504, z: -0.000000017594918, w: 0.5932065}
+  m_LocalRotation: {x: 0, y: 0.8050491, z: 0, w: 0.5932082}
   m_LocalPosition: {x: 4.138, y: 0, z: 0}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 457458}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 107.23, z: 0}
 --- !u!33 &3381524
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9752,6 +9753,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &851105192688596958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f605661b407964da40e7642e230f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spherePrefab: {fileID: 7993511349536147927, guid: 2ec691d81efaebd428afb3a3dc8df803, type: 3}
+  sphereMaxScale: 0.3
+  sphereMinScale: 0.02
+  spherePos: {x: 0, y: 0.85, z: 0}
+  timeBetweenSpheresAppearance: 1
+  sphereSqueezingSpeed: 1.01
+  actionDuration: 8
+  slowDownStrenght: 2
 --- !u!1 &135182
 GameObject:
   m_ObjectHideFlags: 0

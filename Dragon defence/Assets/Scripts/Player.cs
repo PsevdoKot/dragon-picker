@@ -9,13 +9,15 @@ public class Player : MonoBehaviour
 
     private Animator anim;
 
+    public bool isActive { get; private set; } = true;
     public float mana { get; set; }
     public float maxMana { get; private set; } = 100;
     public int HP { get; private set; }
     public int maxHP { get; private set; } = 100;
 
     private int shildAmount = 0;
-    [SerializeField] private float manaRegenAmount = 0.001f;
+    [SerializeField] private float timeToDie = 3f;
+    [SerializeField] private float manaRegenSpeed = 0;
 
     void Start()
     {
@@ -28,6 +30,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (!isActive) return;
+
         RegenMana();
     }
 
@@ -50,25 +54,37 @@ public class Player : MonoBehaviour
 
     private void RegenMana()
     {
-        mana += manaRegenAmount;
+        mana += manaRegenSpeed;
         ClampMana();
     }
 
-    public void AddManaRegenAmount(float regenAmount)
+    public void AddManaRegenSpeed(float regenSpeed)
     {
-        manaRegenAmount += regenAmount;
+        manaRegenSpeed += regenSpeed;
     }
 
-    public void AddShieldAmount(int amount)
+    public IEnumerator AddShieldAmount(int amount, float duration)
     {
         shildAmount += amount;
+        yield return new WaitForSecondsRealtime(duration);
+        shildAmount = 0;
     }
 
     public void PlaceTotem(float manaCost)
     {
         DecreaseMana(manaCost);
-        var rand = Random.Range(0, 1);
-        anim.SetInteger("totemPositioning", rand > 0.5 ? 1 : 0);
+        var rand = Random.Range(0, 2);
+        anim.SetTrigger("totemPositioning");
+        anim.SetInteger("positioningType", rand);
+        if (rand == 0) StartCoroutine("CompensateAnimationTranslate");
+    }
+
+    private IEnumerator CompensateAnimationTranslate()
+    {
+        var vector = new Vector3(0, 0.7f, 0);
+        transform.position += vector;
+        yield return new WaitForSecondsRealtime(2.7f);
+        transform.position -= vector;
     }
 
     public void TakeDamage(int damageAmount)
@@ -76,19 +92,33 @@ public class Player : MonoBehaviour
         if (shildAmount > 0)
         {
             shildAmount -= damageAmount;
-        }
-        if (shildAmount < 0)
-        {
-            (shildAmount, damageAmount) = (0, shildAmount == 0 ? damageAmount : -shildAmount);
-            HP -= damageAmount;
-            if (HP < 0)
+            if (shildAmount >= 0)
             {
-                Fight.Instance.PlayerLose();
+                return;
             }
             else
             {
-                anim.SetTrigger("hitted");
+                (shildAmount, damageAmount) = (0, -shildAmount);
             }
         }
+
+        HP -= damageAmount;
+        if (HP > 0)
+        {
+            anim.SetTrigger("hitted");
+            // добавить звук
+        }
+        else
+        {
+            StartCoroutine("Die");
+        }
+    }
+
+    private IEnumerator Die()
+    {
+        anim.SetTrigger("dying");
+        isActive = false;
+        yield return new WaitForSecondsRealtime(timeToDie);
+        Fight.Instance.PlayerLose();
     }
 }

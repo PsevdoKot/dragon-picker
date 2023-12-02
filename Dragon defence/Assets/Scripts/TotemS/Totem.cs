@@ -1,30 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Totem : MonoBehaviour
 {
-    public static Totem[] Instances;
-
     public int placeId { get; set; }
     public bool isReady { get; private set; } = false;
-    public int HP { get; private set; } = 100;
-    [SerializeField] abstract public float manaCost { get; protected set; }
-    [SerializeField] abstract protected float timeBetweenActions { get; set; }
+    public int HP { get; private set; }
+    public int maxHP { get; private set; } = 30;
+    public int shildAmount { get; private set; } = 0;
+    public int maxShildAmount { get; private set; } = 0;
+    public float actionTimer { get; private set; }
+    abstract public TotemType type { get; }
+    abstract public float manaCost { get; protected set; }
+    abstract protected float timeBetweenActions { get; set; }
 
     private bool isActive = true;
-    private float actionTimer;
-
-    public void Init(int placeId)
-    {
-        Instances ??= new Totem[6];
-        Instances[placeId] = this;
-        // добавить ui
-    }
 
     protected virtual void Start()
     {
+        HP = maxHP;
         actionTimer = timeBetweenActions;
     }
 
@@ -32,17 +29,11 @@ public abstract class Totem : MonoBehaviour
     {
         if (!isActive) return;
 
-        if (HP < 0)
-        {
-            DestroyTotem();
-        }
-
         if (!isReady)
         {
             if (actionTimer < 0)
             {
                 ShowReadiness();
-                actionTimer = timeBetweenActions;
             }
             else
             {
@@ -51,26 +42,56 @@ public abstract class Totem : MonoBehaviour
         }
     }
 
-    private void ShowReadiness()
+    protected virtual void ShowReadiness()
     {
         isReady = true;
     }
 
+    public abstract void PrepareAction();
+
     protected virtual void Action()
     {
         isReady = false;
+        actionTimer = timeBetweenActions;
+    }
+
+    public IEnumerator AddShieldAmount(int amount, float duration)
+    {
+        shildAmount = maxShildAmount = amount;
+        yield return new WaitForSecondsRealtime(duration);
+        shildAmount = maxShildAmount = 0;
     }
 
     public void TakeDamage(int damageAmount)
     {
+        if (shildAmount > 0)
+        {
+            shildAmount -= damageAmount;
+            if (shildAmount >= 0)
+            {
+                return;
+            }
+            else
+            {
+                (shildAmount, damageAmount) = (0, -shildAmount);
+            }
+        }
+
         HP -= damageAmount;
+        if (HP > 0)
+        {
+            // добавить импакт, звук
+        }
+        else
+        {
+            DestroyTotem();
+        }
     }
 
     protected virtual void DestroyTotem()
     {
         isActive = false;
-        Instances[placeId] = null;
-        // убрать ui
-        Destroy(gameObject);
+        // добавить импакт, звук
+        TotemsRow.Instance.DestroyTotem(placeId);
     }
 }

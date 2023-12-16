@@ -21,11 +21,21 @@ public class Fight : MonoBehaviour
         Instance = this;
 
         textGUI.text = "";
+
+        StartCoroutine(PlayAudio());
     }
 
     void Update()
     {
 
+    }
+
+    private IEnumerator PlayAudio()
+    {
+        AudioManager.Instance.Play("fight-start1");
+        yield return new WaitForSecondsRealtime(3f);
+
+        AudioManager.Instance.Play("fight-music");
     }
 
     public IEnumerator PlayerWin()
@@ -34,7 +44,8 @@ public class Fight : MonoBehaviour
         //YandexGame.NewLeaderboardScores("TopPlayersScore", YandexGame.savesData.playerScore);
         textGUI.text = winText;
         Player.Instance.HandlePlayerWin();
-        // AudioManager.Instance.Play("");
+        AudioManager.Instance.Stop("fight-music");
+        AudioManager.Instance.Play("player-win");
         yield return new WaitForSecondsRealtime(timeForWin);
 
         SceneManager.LoadScene("Menu");
@@ -46,6 +57,8 @@ public class Fight : MonoBehaviour
         //YandexGame.NewLeaderboardScores("TopPlayersScore", YandexGame.savesData.playerScore);
         textGUI.text = defeatText;
         Dragon.Instance.HandlePlayerDefeat();
+        AudioManager.Instance.Stop("fight-music");
+        AudioManager.Instance.Play("player-lose1");
         yield return new WaitForSecondsRealtime(timeForDefeat);
 
         SceneManager.LoadScene("Menu");

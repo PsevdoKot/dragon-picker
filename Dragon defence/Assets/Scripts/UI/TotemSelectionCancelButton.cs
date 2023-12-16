@@ -12,7 +12,7 @@ public class TotemSelectionCancelButton : MonoBehaviour, ITotemSelectionButton
     private Color activeButtonColor = new Color(255, 255, 255);
     private Color hideButtonColor = new Color(255, 255, 255, 0f);
 
-    void Start()
+    void Awake()
     {
         button = GetComponent<Button>();
         buttonImage = button.GetComponent<Image>();
@@ -27,11 +27,18 @@ public class TotemSelectionCancelButton : MonoBehaviour, ITotemSelectionButton
 
         if (state)
         {
-            button.onClick.AddListener(TotemSelection.Instance.CancelTotemSelection);
+            button.onClick.AddListener(HandleClick);
         }
         else
         {
             button.onClick.RemoveAllListeners();
         }
+    }
+
+    private void HandleClick()
+    {
+        TotemSelection.Instance.CancelTotemSelection();
+
+        AudioManager.Instance.Play("in-fight-click");
     }
 }

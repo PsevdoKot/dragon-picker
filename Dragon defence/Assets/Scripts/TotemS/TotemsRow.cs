@@ -45,7 +45,9 @@ public class TotemsRow : MonoBehaviour
 
         TotemButtons.Instance.HandleTotemAppearance(placeId);
 
-        Player.Instance.PlaceTotem(totem.manaCost);
+        StartCoroutine(Player.Instance.PlaceTotem(totem.manaCost));
+
+        AudioManager.Instance.Play("totem-apperance");
     }
 
     public List<int> GetExistingTotemsId()

@@ -10,33 +10,52 @@ public class AudioManager : MonoBehaviour
 
     private Dictionary<string, SoundFile> soundFileByName;
     [SerializeField] private SoundFile[] soundFiles;
-    [SerializeField] private AudioMixerGroup mixer;
+    [SerializeField] private AudioMixerGroup sfxAudioGroup;
+    [SerializeField] private AudioMixerGroup musicAudioGroup;
 
     public void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if (this != Instance)
+        {
+            Destroy(this.gameObject);
+        }
 
         soundFileByName = new();
-        foreach (Sound sound in soundFiles)
+        foreach (SoundFile sound in soundFiles)
         {
             sound.source = gameObject.AddComponent<AudioSource>();
+            sound.source.outputAudioMixerGroup = sound.audioGroup switch
+            {
+                AudioGroupType.Music => musicAudioGroup,
+                _ => sfxAudioGroup,
+            };
             sound.source.clip = sound.clip;
-            sound.source.outputAudioMixerGroup = mixer;
             sound.source.volume = sound.volume;
             sound.source.pitch = sound.pitch;
             sound.source.loop = sound.loop;
             sound.source.playOnAwake = sound.playOnAwake;
+
             soundFileByName.Add(sound.name, sound);
         }
     }
 
+    public void IsPlaying(string soundName)
+    {
+        //soundFileByName[soundName].source.isPlaying;
+    }
+
     public void Play(string soundName)
     {
-        soundFileByName[soundName].source.Play();
+        //soundFileByName[soundName].source.Play();
     }
 
     public void Stop(string soundName)
     {
-        soundFileByName[soundName].source.Stop();
+        //soundFileByName[soundName].source.Stop();
     }
 }

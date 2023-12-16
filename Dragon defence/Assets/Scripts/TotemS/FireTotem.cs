@@ -30,6 +30,15 @@ public class FireTotem : Totem
         base.ShowReadiness();
 
         fire.SetActive(true);
+        StartCoroutine(PlaySound());
+    }
+
+    private IEnumerator PlaySound()
+    {
+        AudioManager.Instance.Play("fire-lighting");
+        yield return new WaitForSecondsRealtime(2f);
+
+        AudioManager.Instance.Play("fire-burning");
     }
 
     public override void PrepareAction()
@@ -42,6 +51,8 @@ public class FireTotem : Totem
         base.Action(target);
 
         fire.SetActive(false);
+        AudioManager.Instance.Stop("fire-burning");
+        AudioManager.Instance.Play("fire-extinguishing");
 
         var startPos = fireballStartPos + transform.position;
         var direction = target.transform.position - startPos;
@@ -50,5 +61,7 @@ public class FireTotem : Totem
         fireballGO.GetComponent<Fireball>().Init(target.transform.position, direction);
 
         Destroy(target);
+
+        AudioManager.Instance.Play($"fire-totem-action{Random.Range(1, 3)}");
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 public class SoundFile
 {
   public string name;
+  public AudioGroupType audioGroup;
   public AudioClip clip;
   [Range(0f, 1f)]
   public float volume;

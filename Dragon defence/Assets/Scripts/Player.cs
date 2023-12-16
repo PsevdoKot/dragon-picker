@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
 
     private Animator anim;
+    private Material material;
+    private SkinnedMeshRenderer render;
 
     public bool isActive { get; private set; } = true;
     public float mana { get; set; }
@@ -16,12 +18,17 @@ public class Player : MonoBehaviour
     public int shield { get; private set; } = 0;
     public int maxShield { get; private set; } = 0;
 
-    [SerializeField] private float manaRegenSpeed = 0;
+    private bool isMale;
+    private Color standartColor = new Color(1f, 1f, 1f);
+    [SerializeField] private Color withShieldBodyColor = new Color(0.41f, 0.97f, 0.81f);
+    [SerializeField] private float manaRegenSpeed = 0.005f;
 
     void Start()
     {
         Instance = this;
         anim = GetComponent<Animator>();
+        render = GetComponentInChildren<SkinnedMeshRenderer>();
+        material = render.materials[0];
 
         mana = maxMana;
         HP = maxHP;
@@ -63,17 +70,33 @@ public class Player : MonoBehaviour
 
     public IEnumerator AddShieldAmount(int amount, float duration)
     {
-        shield = maxShield = amount;
+        HandleShieldApperance(amount);
         yield return new WaitForSecondsRealtime(duration);
-        shield = maxShield = 0;
+
+        HandleShieldDestruction();
     }
 
-    public void PlaceTotem(int manaCost)
+    private void HandleShieldApperance(int amount)
+    {
+        shield = maxShield = amount;
+        material.SetColor("_Color", withShieldBodyColor);
+    }
+
+    private void HandleShieldDestruction()
+    {
+        shield = maxShield = 0;
+        material.SetColor("_Color", standartColor);
+    }
+
+    public IEnumerator PlaceTotem(int manaCost)
     {
         DecreaseMana(manaCost);
         var rand = Random.Range(0, 2);
         anim.SetTrigger("totemPositioning");
         anim.SetInteger("positioningType", rand);
+        yield return new WaitForSecondsRealtime(0.3f);
+
+        AudioManager.Instance.Play("player-totem-placement");
     }
 
     public void TakeDamage(int damageAmount)
@@ -87,7 +110,9 @@ public class Player : MonoBehaviour
             }
             else
             {
-                (shield, damageAmount) = (0, -shield);
+                damageAmount = -shield;
+                HandleShieldDestruction();
+                AudioManager.Instance.Play("shield-destruction");
             }
         }
 
@@ -95,7 +120,7 @@ public class Player : MonoBehaviour
         if (HP > 0)
         {
             anim.SetTrigger("hitted");
-            // добавить звук
+            AudioManager.Instance.Play(isMale ? $"player-hitted{Random.Range(1, 3)}" : "f-player-hitted");
         }
         else
         {
@@ -107,7 +132,7 @@ public class Player : MonoBehaviour
     {
         isActive = false;
         anim.SetTrigger("dying");
-        // добавить звук
+        AudioManager.Instance.Play(isMale ? $"player-dying{Random.Range(1, 3)}" : "f-player-hitted");
         StartCoroutine(Fight.Instance.PlayerDefeat());
     }
 

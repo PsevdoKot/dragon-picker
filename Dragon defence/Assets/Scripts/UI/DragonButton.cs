@@ -23,6 +23,7 @@ public class DragonButton : MonoBehaviour
         if (targeting.isOccupied && targeting.initiatorType == TotemType.Earth)
         {
             TargetSelection.Instance.EndTargetSelection(Dragon.Instance.gameObject);
+            AudioManager.Instance.Play("totem-target-selection");
         }
     }
 }

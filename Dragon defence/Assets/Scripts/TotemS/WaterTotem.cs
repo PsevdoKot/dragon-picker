@@ -59,5 +59,7 @@ public class WaterTotem : Totem
         Player.Instance.IncreaseMana(manaIncresingAmount);
         sphere.transform.localPosition = new Vector3(0, sphere.transform.localPosition.y - 0.3f, 0);
         sphere.SetActive(false);
+
+        // AudioManager.Instance.Play("water-totem-action");
     }
 }

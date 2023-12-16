@@ -38,6 +38,7 @@ public class Pause : MonoBehaviour
 
     public void LoadMenu()
     {
-        SceneManager.LoadScene("Menu");
+        AudioManager.Instance.Play("menu-click");
+        SceneManager.LoadSceneAsync("Menu");
     }
 }

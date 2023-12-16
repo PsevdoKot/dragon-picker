@@ -83,5 +83,7 @@ public class AirTotem : Totem
         {
             StartCoroutine(((Player)target).AddShieldAmount(shieldAmount, actionDuration));
         }
+
+        AudioManager.Instance.Play("air-totem-action");
     }
 }

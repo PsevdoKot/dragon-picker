@@ -8,8 +8,8 @@ public class Dragon : MonoBehaviour
 
     private Animator anim;
     private Material material;
-    [SerializeField] private GameObject dragonFireball;
-    [SerializeField] private SkinnedMeshRenderer render;
+    private SkinnedMeshRenderer render;
+    [SerializeField] private GameObject dragonFireballPrefab;
 
     [SerializeField] public int HP { get; private set; }
     [SerializeField] public int maxHP { get; private set; } = 100;
@@ -17,6 +17,8 @@ public class Dragon : MonoBehaviour
     private bool isActive = false;
     private int moveDirection = 1;
     private float attackTimer;
+    private Color standartColor = new Color(1f, 1f, 1f);
+    [SerializeField] private Color slowDownBodyColor = new Color(1f, 0.73f, 0.35f);
     [SerializeField] private float timeToSleep = 4f;
     [SerializeField] private float timeToWakeUp = 2f;
     [SerializeField] private float speed = 4f;
@@ -35,6 +37,7 @@ public class Dragon : MonoBehaviour
 
         HP = -1;
         anim = GetComponent<Animator>();
+        render = GetComponentInChildren<SkinnedMeshRenderer>();
         material = render.materials[0];
 
         anim.SetBool("sleeping", true);
@@ -66,8 +69,11 @@ public class Dragon : MonoBehaviour
     private IEnumerator WakeUp()
     {
         yield return new WaitForSecondsRealtime(timeToSleep);
+
         anim.SetBool("sleeping", false);
+        AudioManager.Instance.Play($"dragon-awakening{Random.Range(1, 3)}");
         yield return new WaitForSecondsRealtime(timeToWakeUp);
+
         HP = maxHP;
         isActive = true;
         attackTimer = timeBetweenAttacks;
@@ -155,19 +161,19 @@ public class Dragon : MonoBehaviour
 
         var startPos = fireballStartPos + transform.position;
         var direction = targetPos - startPos;
-        var fireballGO = Instantiate(dragonFireball);
+        var fireballGO = Instantiate(dragonFireballPrefab);
         fireballGO.transform.position = startPos;
         fireballGO.GetComponent<Fireball>().Init(targetPos, direction);
-        // добавить звук
     }
 
     public IEnumerator SlowDown(float strength, float duration)
     {
         speed /= strength;
-        material.SetColor("_Color", new Color(1f, 0.73f, 0.35f));
+        material.SetColor("_Color", slowDownBodyColor);
         yield return new WaitForSecondsRealtime(duration);
+
         speed *= strength;
-        material.SetColor("_Color", new Color(1f, 1f, 1f));
+        material.SetColor("_Color", standartColor);
     }
 
     public void TakeDamage(int damageAmount)
@@ -176,12 +182,11 @@ public class Dragon : MonoBehaviour
         if (HP > 0)
         {
             anim.SetTrigger("hitted");
-            // добавить звук
+            AudioManager.Instance.Play($"dragon-hitted{Random.Range(1, 3)}");
         }
         else
         {
             StartCoroutine(Die());
-            // добавить звук
         }
     }
 
@@ -190,6 +195,7 @@ public class Dragon : MonoBehaviour
         isActive = false;
         anim.SetTrigger("dying");
         StartCoroutine(gameObject.MoveObjectSmoothly(new Vector3(transform.position.x, -10.5f, transform.position.z), 1f));
+        AudioManager.Instance.Play($"dragon-dying{Random.Range(1, 3)}");
         yield return new WaitForSecondsRealtime(1f);
 
         StartCoroutine(Fight.Instance.PlayerWin());

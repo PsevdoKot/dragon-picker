@@ -110,5 +110,7 @@ public class EarthTotem : Totem
         {
             StartCoroutine(((Dragon)target).SlowDown(slowDownStrenght, actionDuration));
         }
+
+        AudioManager.Instance.Play("earth-totem-action");
     }
 }

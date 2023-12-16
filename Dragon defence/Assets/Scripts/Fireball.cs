@@ -29,7 +29,8 @@ public class Fireball : MonoBehaviour
         this.targetPos = targetPos;
         this.direction = direction;
         transform.LookAt(transform.position + direction);
-        // вызвать звук
+
+        StartCoroutine(PlaySound());
     }
 
     void Update()
@@ -66,6 +67,14 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    private IEnumerator PlaySound()
+    {
+        AudioManager.Instance.Play($"fireball-shoot{Random.Range(1, 6)}");
+        yield return new WaitForSecondsRealtime(0.8f);
+
+        AudioManager.Instance.Play("fireball-burning");
+    }
+
     private IEnumerator HandleTargetMiss()
     {
         isTargetMissed = true;
@@ -74,7 +83,6 @@ public class Fireball : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // StartCoroutine(Explode()); ??
     }
 
     private IEnumerator Explode()
@@ -83,8 +91,10 @@ public class Fireball : MonoBehaviour
         fireEffect.Pause();
         trailEffect.Pause();
         explosionEffectGO.SetActive(true);
-        // вызвать звук
+        AudioManager.Instance.Stop("fireball-burning");
+        AudioManager.Instance.Play($"fireball-explosion{Random.Range(1, 7)}");
         yield return new WaitForSecondsRealtime(timeForExplosion);
+
         Destroy(gameObject);
     }
 }

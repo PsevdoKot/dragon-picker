@@ -48,7 +48,8 @@ public class Menu : MonoBehaviour
 
     public void LoadFight()
     {
-        SceneManager.LoadScene("DragonFight");
+        AudioManager.Instance.Play("menu-click");
+        SceneManager.LoadSceneAsync("DragonFight");
     }
 
     // public void OpenInventory()
@@ -58,6 +59,7 @@ public class Menu : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        AudioManager.Instance.Play("menu-click");
+        SceneManager.LoadSceneAsync("MainMenu");
     }
 }

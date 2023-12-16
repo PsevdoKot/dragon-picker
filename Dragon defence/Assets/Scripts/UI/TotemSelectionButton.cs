@@ -17,7 +17,7 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
     [SerializeField] private Color disabledButtonColor;
     [SerializeField] private TotemType buttonType;
 
-    void Start()
+    void Awake()
     {
         totemManaCost = buttonType switch
         {
@@ -46,7 +46,7 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
 
         if (state)
         {
-            button.onClick.AddListener(() => TotemSelection.Instance.EndTotemSelection(buttonType));
+            button.onClick.AddListener(HandleClick);
         }
         else
         {
@@ -54,15 +54,20 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
         }
     }
 
+    private void HandleClick()
+    {
+        TotemSelection.Instance.EndTotemSelection(buttonType);
+
+        AudioManager.Instance.Play("in-fight-click");
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(1);
         TotemSelection.Instance.HandleButtonPointerEnter(rectTransform.anchoredPosition, buttonColor);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log(2);
         TotemSelection.Instance.HandleButtonPointerExit();
     }
 }

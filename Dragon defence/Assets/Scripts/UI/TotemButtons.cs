@@ -57,6 +57,7 @@ public class TotemButtons : MonoBehaviour
         if (totem.IsUnityNull())
         {
             TotemSelection.Instance.StartTotemSelection(placeId);
+            AudioManager.Instance.Play("in-fight-click");
         }
         else
         {
@@ -64,12 +65,15 @@ public class TotemButtons : MonoBehaviour
             if (targeting.isOccupied && targeting.initiatorType == TotemType.Air)
             {
                 targeting.EndTargetSelection(totem.gameObject);
+                AudioManager.Instance.Play("totem-target-selection");
             }
             else if (totem.isReady)
             {
                 totem.PrepareAction();
+                AudioManager.Instance.Play("in-fight-click");
             }
         }
+
     }
 
     public void HandleTotemAppearance(int placeId)

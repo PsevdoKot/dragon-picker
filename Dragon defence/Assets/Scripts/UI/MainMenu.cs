@@ -17,11 +17,13 @@ public class MainMenu : MonoBehaviour
 
     public void LoadMenu()
     {
-        SceneManager.LoadScene("Menu");
+        AudioManager.Instance.Play("menu-click");
+        SceneManager.LoadSceneAsync("Menu");
     }
 
     public void Exit()
     {
+        AudioManager.Instance.Play("menu-click");
         Application.Quit();
     }
 }

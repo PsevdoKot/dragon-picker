@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class DragonBar : MonoBehaviour
 {
+    private Dragon dragon;
     private RectTransform rectTransform;
     [SerializeField] private GameObject healthBar;
     [SerializeField] private Image health;
@@ -17,12 +18,13 @@ public class DragonBar : MonoBehaviour
             Destroy(gameObject);
         }
 
+        dragon = Dragon.Instance;
         rectTransform = GetComponent<RectTransform>();
     }
 
     void Update()
     {
-        if (Dragon.Instance.HP <= 0)
+        if (dragon.HP <= 0)
         {
             healthBar.SetActive(false);
             return;
@@ -32,9 +34,9 @@ public class DragonBar : MonoBehaviour
             healthBar.SetActive(true);
         }
 
-        var dragonPosOnScreen = Camera.main.WorldToScreenPoint(Dragon.Instance.transform.position);
+        var dragonPosOnScreen = Camera.main.WorldToScreenPoint(dragon.transform.position);
         rectTransform.anchoredPosition = new Vector3(dragonPosOnScreen.x, dragonPosOnScreen.y, 0);
 
-        health.fillAmount = Dragon.Instance.HP / Dragon.Instance.maxHP;
+        health.fillAmount = (float)dragon.HP / dragon.maxHP;
     }
 }

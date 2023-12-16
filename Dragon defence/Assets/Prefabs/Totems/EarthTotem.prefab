@@ -9680,13 +9680,14 @@ GameObject:
   - component: {fileID: 3381524}
   - component: {fileID: 2351056}
   - component: {fileID: 851105192688596958}
-  m_Layer: 0
+  - component: {fileID: 3934906774497774697}
+  m_Layer: 9
   m_Name: EarthTotem
-  m_TagString: Untagged
+  m_TagString: Totem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &478342
 Transform:
   m_ObjectHideFlags: 0
@@ -9772,7 +9773,30 @@ MonoBehaviour:
   timeBetweenSpheresAppearance: 1
   sphereSqueezingSpeed: 1.01
   actionDuration: 8
-  slowDownStrenght: 2
+  slowDownStrenght: 2.5
+--- !u!136 &3934906774497774697
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133532}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 1.2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &135182
 GameObject:
   m_ObjectHideFlags: 0

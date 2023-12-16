@@ -2,64 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 
 public class TotemSelection : MonoBehaviour
 {
     public static TotemSelection Instance { get; private set; }
 
-    [SerializeField] private Button waterBtn;
-    [SerializeField] private Button fireBtn;
-    [SerializeField] private Button airBtn;
-    [SerializeField] private Button earthBtn;
-    [SerializeField] private Button cancelBtn;
+    private ITotemSelectionButton[] buttons;
+    [SerializeField] private TextMeshProUGUI manaCostTextGUI;
 
+    private bool isSelecting = false;
     private int currentTotemPlaceId;
+    [SerializeField] private Vector3 textOffset;
 
     void Start()
     {
         Instance = this;
+
+        buttons = GetComponentsInChildren<ITotemSelectionButton>();
+
+        ToggleButtons(false);
+        manaCostTextGUI.gameObject.SetActive(false);
     }
 
-    private void ShowButtons(bool state)
+    void Update()
     {
-        waterBtn.gameObject.SetActive(state);
-        fireBtn.gameObject.SetActive(state);
-        airBtn.gameObject.SetActive(state);
-        earthBtn.gameObject.SetActive(state);
-        cancelBtn.gameObject.SetActive(state);
+        if (isSelecting)
+        {
+            var currentMana = Player.Instance.mana;
+            foreach (var button in buttons)
+            {
+                button.UpdateEnabled(currentMana);
+            }
+        }
+    }
 
-        if (state)
+    private void ToggleButtons(bool state)
+    {
+        isSelecting = state;
+
+        foreach (var button in buttons)
         {
-            waterBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Water));
-            fireBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Fire));
-            airBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Air));
-            earthBtn.onClick.AddListener(() => EndTotemSelection(TotemType.Earth));
-            cancelBtn.onClick.AddListener(CancelTotemSelection);
+            button.ToggleButton(state);
         }
-        else
-        {
-            waterBtn.onClick.RemoveAllListeners();
-            fireBtn.onClick.RemoveAllListeners();
-            airBtn.onClick.RemoveAllListeners();
-            earthBtn.onClick.RemoveAllListeners();
-            cancelBtn.onClick.RemoveAllListeners();
-        }
+    }
+
+    public void HandleButtonPointerEnter(Vector3 buttonPos, Color buttonColor)
+    {
+        manaCostTextGUI.gameObject.SetActive(true);
+        manaCostTextGUI.rectTransform.anchoredPosition = buttonPos + textOffset;
+        manaCostTextGUI.color = buttonColor;
+    }
+
+    public void HandleButtonPointerExit()
+    {
+        manaCostTextGUI.gameObject.SetActive(false);
     }
 
     public void StartTotemSelection(int totemPlaceId)
     {
         currentTotemPlaceId = totemPlaceId;
-        ShowButtons(true);
+        ToggleButtons(true);
     }
 
-    private void CancelTotemSelection()
+    public void CancelTotemSelection()
     {
-        ShowButtons(false);
+        ToggleButtons(false);
     }
 
-    private void EndTotemSelection(TotemType type)
+    public void EndTotemSelection(TotemType type)
     {
         TotemsRow.Instance.AddTotem(type, currentTotemPlaceId);
-        ShowButtons(false);
+        ToggleButtons(false);
     }
 }

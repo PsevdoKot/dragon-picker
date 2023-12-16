@@ -60,7 +60,12 @@ public class TotemButtons : MonoBehaviour
         }
         else
         {
-            if (totem.isReady)
+            var targeting = TargetSelection.Instance;
+            if (targeting.isOccupied && targeting.initiatorType == TotemType.Air)
+            {
+                targeting.EndTargetSelection(totem.gameObject);
+            }
+            else if (totem.isReady)
             {
                 totem.PrepareAction();
             }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Dragon : MonoBehaviour
@@ -8,10 +7,12 @@ public class Dragon : MonoBehaviour
     public static Dragon Instance { get; private set; }
 
     private Animator anim;
+    private Material material;
     [SerializeField] private GameObject dragonFireball;
+    [SerializeField] private SkinnedMeshRenderer render;
 
-    [SerializeField] public int maxHP { get; private set; } = 100;
     [SerializeField] public int HP { get; private set; }
+    [SerializeField] public int maxHP { get; private set; } = 100;
 
     private bool isActive = false;
     private int moveDirection = 1;
@@ -26,6 +27,7 @@ public class Dragon : MonoBehaviour
     [SerializeField] private float maxTopDistance = -2f;
     [SerializeField] private float maxBottomDistance = -12f;
     [SerializeField] private float timeBetweenAttacks = 5f;
+    [SerializeField] private Vector3 fireballStartPos;
 
     void Start()
     {
@@ -33,9 +35,15 @@ public class Dragon : MonoBehaviour
 
         HP = -1;
         anim = GetComponent<Animator>();
+        material = render.materials[0];
 
         anim.SetBool("sleeping", true);
         StartCoroutine("WakeUp");
+
+        // скрипт
+        // tag
+        // layer
+        // коллайдер
     }
 
     void Update()
@@ -44,7 +52,7 @@ public class Dragon : MonoBehaviour
 
         if (attackTimer <= 0)
         {
-            Attack();
+            StartCoroutine(Attack());
             attackTimer = timeBetweenAttacks;
         }
         else
@@ -126,12 +134,40 @@ public class Dragon : MonoBehaviour
         anim.SetInteger("moveDirection", moveDirection);
     }
 
-    private void Attack()
+    private IEnumerator Attack()
     {
         anim.SetTrigger("attacking");
-        // var fireball = Instantiate<GameObject>(dragonFireball);
-        // fireball.transform.position = transform.position;
+        yield return new WaitForSecondsRealtime(1.10f);
+
+        var totemsId = TotemsRow.Instance.GetExistingTotemsId();
+        var rand = Random.Range(0, totemsId.Count + 1);
+
+        Vector3 targetPos;
+        if (rand == totemsId.Count)
+        {
+            targetPos = Player.Instance.transform.position;
+        }
+        else
+        {
+            targetPos = TotemsRow.Totems[totemsId[rand]].transform.position;
+        }
+        targetPos += new Vector3(0, 0.7f, 0);
+
+        var startPos = fireballStartPos + transform.position;
+        var direction = targetPos - startPos;
+        var fireballGO = Instantiate(dragonFireball);
+        fireballGO.transform.position = startPos;
+        fireballGO.GetComponent<Fireball>().Init(targetPos, direction);
         // добавить звук
+    }
+
+    public IEnumerator SlowDown(float strength, float duration)
+    {
+        speed /= strength;
+        material.SetColor("_Color", new Color(1f, 0.73f, 0.35f));
+        yield return new WaitForSecondsRealtime(duration);
+        speed *= strength;
+        material.SetColor("_Color", new Color(1f, 1f, 1f));
     }
 
     public void TakeDamage(int damageAmount)
@@ -144,22 +180,28 @@ public class Dragon : MonoBehaviour
         }
         else
         {
-            Die();
+            StartCoroutine(Die());
             // добавить звук
         }
     }
 
-    private void Die()
+    private IEnumerator Die()
     {
-        // приземлить дракона
         isActive = false;
         anim.SetTrigger("dying");
         StartCoroutine(gameObject.MoveObjectSmoothly(new Vector3(transform.position.x, -10.5f, transform.position.z), 1f));
-        Invoke("AfterDeath", 3f);
+        yield return new WaitForSecondsRealtime(1f);
+
+        StartCoroutine(Fight.Instance.PlayerWin());
     }
 
-    private void AfterDeath()
+    public void HandlePlayerDefeat()
     {
-        Fight.Instance.PlayerWin();
+        isActive = false;
+    }
+
+    public static explicit operator Dragon(GameObject v)
+    {
+        return v.GetComponent<Dragon>();
     }
 }

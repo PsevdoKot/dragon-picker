@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class FireTotem : Totem
 {
+    static public int ManaCost { get; } = 40;
+
     [SerializeField] private GameObject fire;
 
     public override TotemType type { get; } = TotemType.Fire;
-    public override float manaCost { get; protected set; } = 40;
+    public override int manaCost { get; protected set; } = ManaCost;
     protected override float timeBetweenActions { get; set; } = 5;
 
+    [SerializeField] private Vector3 fireballStartPos;
     [SerializeField] private GameObject firaballPrefab;
 
     protected override void Start()
@@ -25,19 +28,27 @@ public class FireTotem : Totem
     protected override void ShowReadiness()
     {
         base.ShowReadiness();
+
         fire.SetActive(true);
     }
 
     public override void PrepareAction()
     {
-
+        TargetSelection.Instance.StartTargetSelection(this);
     }
 
-    protected override void Action()
+    public override void Action(GameObject target)
     {
-        base.Action();
+        base.Action(target);
+
         fire.SetActive(false);
-        // Выстрелить fireball`ом по направлению курсора
-        // Instantiate(firaballPrefab);
+
+        var startPos = fireballStartPos + transform.position;
+        var direction = target.transform.position - startPos;
+        var fireballGO = Instantiate(firaballPrefab);
+        fireballGO.transform.position = startPos;
+        fireballGO.GetComponent<Fireball>().Init(target.transform.position, direction);
+
+        Destroy(target);
     }
 }

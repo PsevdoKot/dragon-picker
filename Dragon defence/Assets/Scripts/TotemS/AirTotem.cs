@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class AirTotem : Totem
 {
+    static public int ManaCost { get; } = 20;
+
     private Material sphereMaterial;
     [SerializeField] private GameObject sphere;
 
+    public int shieldAmount { get; protected set; } = 60;
     public override TotemType type { get; } = TotemType.Air;
-    public override float manaCost { get; protected set; } = 20;
-    protected override float timeBetweenActions { get; set; } = 20;
+    public override int manaCost { get; protected set; } = ManaCost;
+    protected override float timeBetweenActions { get; set; } = 15;
 
     private string sphereTextureName;
     private Vector2 sphereTextureScale = new();
@@ -18,12 +21,12 @@ public class AirTotem : Totem
     [SerializeField] private float sphereMaxScale = 7;
     [SerializeField] private float sphereXScalingSpeed = 0.01f;
     [SerializeField] private float sphereYScalingSpeed = 0.015f;
-    [SerializeField] private float shieldAmount = 60;
     [SerializeField] private float actionDuration = 15;
 
     protected override void Start()
     {
         base.Start();
+
         sphereMaterial = sphere.GetComponent<MeshRenderer>().material;
         sphereTextureName = sphereMaterial.GetTexturePropertyNames()[0];
     }
@@ -62,15 +65,23 @@ public class AirTotem : Totem
 
     public override void PrepareAction()
     {
-        // Перейти к выбору объекта для защиты
+        TargetSelection.Instance.StartTargetSelection(this);
     }
 
-    protected override void Action()
+    public override void Action(GameObject target)
     {
-        base.Action();
+        base.Action(target);
+
         sphere.transform.localPosition = new Vector3(0, sphere.transform.localPosition.y - 0.3f, 0);
         sphere.SetActive(false);
 
-        // StartCoroutine(.AddShieldAmount(shieldAmount, actionDuration));
+        if (target.CompareTag("Totem"))
+        {
+            StartCoroutine(((Totem)target).AddShieldAmount(shieldAmount, actionDuration));
+        }
+        else if (target.CompareTag("Player"))
+        {
+            StartCoroutine(((Player)target).AddShieldAmount(shieldAmount, actionDuration));
+        }
     }
 }

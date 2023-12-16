@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ public abstract class Totem : MonoBehaviour
     public bool isReady { get; private set; } = false;
     public int HP { get; private set; }
     public int maxHP { get; private set; } = 30;
-    public int shildAmount { get; private set; } = 0;
-    public int maxShildAmount { get; private set; } = 0;
+    public int shield { get; private set; } = 0;
+    public int maxShield { get; private set; } = 0;
     public float actionTimer { get; private set; }
     abstract public TotemType type { get; }
-    abstract public float manaCost { get; protected set; }
+    abstract public int manaCost { get; protected set; }
     abstract protected float timeBetweenActions { get; set; }
 
     private bool isActive = true;
@@ -49,7 +50,7 @@ public abstract class Totem : MonoBehaviour
 
     public abstract void PrepareAction();
 
-    protected virtual void Action()
+    public virtual void Action(GameObject target)
     {
         isReady = false;
         actionTimer = timeBetweenActions;
@@ -57,23 +58,23 @@ public abstract class Totem : MonoBehaviour
 
     public IEnumerator AddShieldAmount(int amount, float duration)
     {
-        shildAmount = maxShildAmount = amount;
+        shield = maxShield = amount;
         yield return new WaitForSecondsRealtime(duration);
-        shildAmount = maxShildAmount = 0;
+        shield = maxShield = 0;
     }
 
     public void TakeDamage(int damageAmount)
     {
-        if (shildAmount > 0)
+        if (shield > 0)
         {
-            shildAmount -= damageAmount;
-            if (shildAmount >= 0)
+            shield -= damageAmount;
+            if (shield >= 0)
             {
                 return;
             }
             else
             {
-                (shildAmount, damageAmount) = (0, -shildAmount);
+                (shield, damageAmount) = (0, -shield);
             }
         }
 
@@ -93,5 +94,10 @@ public abstract class Totem : MonoBehaviour
         isActive = false;
         // добавить импакт, звук
         TotemsRow.Instance.DestroyTotem(placeId);
+    }
+
+    public static explicit operator Totem(GameObject v)
+    {
+        return v.GetComponent<Totem>();
     }
 }

@@ -34,8 +34,14 @@ public class TotemUI : MonoBehaviour
             return;
         }
 
-        health.fillAmount = totem.HP / totem.maxHP;
+        health.fillAmount = (float)totem.HP / totem.maxHP;
+        shield.fillAmount = totem.maxShield > 0 ? (float)totem.shield / totem.maxShield : 0;
 
+        UpdateCooldown();
+    }
+
+    private void UpdateCooldown()
+    {
         if (totem.actionTimer > 0)
         {
             cooldownText.gameObject.SetActive(true);
@@ -44,16 +50,6 @@ public class TotemUI : MonoBehaviour
         else
         {
             cooldownText.gameObject.SetActive(false);
-        }
-
-        if (totem.shildAmount > 0)
-        {
-            shield.gameObject.SetActive(true);
-            shield.fillAmount = totem.shildAmount / totem.maxShildAmount;
-        }
-        else
-        {
-            shield.gameObject.SetActive(false);
         }
     }
 }

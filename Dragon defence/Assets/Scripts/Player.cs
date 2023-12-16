@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
@@ -14,9 +13,9 @@ public class Player : MonoBehaviour
     public float maxMana { get; private set; } = 100;
     public int HP { get; private set; }
     public int maxHP { get; private set; } = 100;
+    public int shield { get; private set; } = 0;
+    public int maxShield { get; private set; } = 0;
 
-    private int shildAmount = 0;
-    [SerializeField] private float timeToDie = 3f;
     [SerializeField] private float manaRegenSpeed = 0;
 
     void Start()
@@ -31,7 +30,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (!isActive) return;
-
         RegenMana();
     }
 
@@ -65,40 +63,31 @@ public class Player : MonoBehaviour
 
     public IEnumerator AddShieldAmount(int amount, float duration)
     {
-        shildAmount += amount;
+        shield = maxShield = amount;
         yield return new WaitForSecondsRealtime(duration);
-        shildAmount = 0;
+        shield = maxShield = 0;
     }
 
-    public void PlaceTotem(float manaCost)
+    public void PlaceTotem(int manaCost)
     {
         DecreaseMana(manaCost);
         var rand = Random.Range(0, 2);
         anim.SetTrigger("totemPositioning");
         anim.SetInteger("positioningType", rand);
-        if (rand == 0) StartCoroutine("CompensateAnimationTranslate");
-    }
-
-    private IEnumerator CompensateAnimationTranslate()
-    {
-        var vector = new Vector3(0, 0.7f, 0);
-        transform.position += vector;
-        yield return new WaitForSecondsRealtime(2.7f);
-        transform.position -= vector;
     }
 
     public void TakeDamage(int damageAmount)
     {
-        if (shildAmount > 0)
+        if (shield > 0)
         {
-            shildAmount -= damageAmount;
-            if (shildAmount >= 0)
+            shield -= damageAmount;
+            if (shield >= 0)
             {
                 return;
             }
             else
             {
-                (shildAmount, damageAmount) = (0, -shildAmount);
+                (shield, damageAmount) = (0, -shield);
             }
         }
 
@@ -110,15 +99,25 @@ public class Player : MonoBehaviour
         }
         else
         {
-            StartCoroutine("Die");
+            Die();
         }
     }
 
-    private IEnumerator Die()
+    private void Die()
     {
-        anim.SetTrigger("dying");
         isActive = false;
-        yield return new WaitForSecondsRealtime(timeToDie);
-        Fight.Instance.PlayerLose();
+        anim.SetTrigger("dying");
+        // добавить звук
+        StartCoroutine(Fight.Instance.PlayerDefeat());
+    }
+
+    public void HandlePlayerWin()
+    {
+
+    }
+
+    public static explicit operator Player(GameObject v)
+    {
+        return v.GetComponent<Player>();
     }
 }

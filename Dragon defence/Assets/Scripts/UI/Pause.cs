@@ -5,26 +5,35 @@ using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
-    private bool paused;
-    [SerializeField] public GameObject pausePanel;
+    private bool isPaused;
+    [SerializeField] public GameObject pauseBackground;
+    [SerializeField] public GameObject pauseText;
+    [SerializeField] public GameObject pauseButton;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!paused)
+            if (!isPaused)
             {
                 Time.timeScale = 0;
-                paused = true;
-                pausePanel.SetActive(true);
+                isPaused = true;
+                Toggle(true);
             }
             else
             {
                 Time.timeScale = 1;
-                paused = false;
-                pausePanel.SetActive(false);
+                isPaused = false;
+                Toggle(false);
             }
         }
+    }
+
+    private void Toggle(bool state)
+    {
+        pauseBackground.SetActive(state);
+        pauseText.SetActive(state);
+        pauseButton.SetActive(state);
     }
 
     public void LoadMenu()

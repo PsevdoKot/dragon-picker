@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class EarthTotem : Totem
 {
+    static public int ManaCost { get; } = 20;
+
     [SerializeField] private GameObject spherePrefab;
 
     public override TotemType type { get; } = TotemType.Earth;
-    public override float manaCost { get; protected set; } = 20;
+    public override int manaCost { get; protected set; } = ManaCost;
     protected override float timeBetweenActions { get; set; } = 20;
 
     private float sphereAppearanceTimer;
@@ -20,7 +22,7 @@ public class EarthTotem : Totem
     [SerializeField] private float timeBetweenSpheresAppearance = 1;
     [SerializeField] private float sphereSqueezingSpeed = 1.01f;
     [SerializeField] private float actionDuration = 8;
-    [SerializeField] private float slowDownStrenght = 2;
+    [SerializeField] private float slowDownStrenght = 2.5f;
 
     protected override void Start()
     {
@@ -44,7 +46,7 @@ public class EarthTotem : Totem
             else
             {
                 sphereAppearanceTimer -= Time.deltaTime;
-            } // исправить ошибку при постройке этого тотема
+            }
         }
     }
 
@@ -72,7 +74,6 @@ public class EarthTotem : Totem
             {
                 var newSphereScale = currentScale / sphereSqueezingSpeed;
                 sphere.transform.localScale = new Vector3(newSphereScale, newSphereScale, newSphereScale);
-                Debug.Log(1 - (newSphereScale / sphereMaxScale));
                 materialBySphere[sphere].SetColor("_TintColor", new Color(0.52f, 0.32f, 0.1f, 1 - (newSphereScale / sphereMaxScale)));
             }
             else
@@ -84,16 +85,30 @@ public class EarthTotem : Totem
         }
     }
 
-    public override void PrepareAction()
+    private void DestroySpheres()
     {
-
-    }
-
-    protected override void Action()
-    {
-        base.Action();
+        foreach (var sphere in spheres)
+        {
+            Destroy(sphere);
+        }
         spheres.Clear();
         materialBySphere.Clear();
-        // Замедлить указанного врага
+    }
+
+    public override void PrepareAction()
+    {
+        TargetSelection.Instance.StartTargetSelection(this);
+    }
+
+    public override void Action(GameObject target)
+    {
+        base.Action(target);
+
+        DestroySpheres();
+
+        if (target.CompareTag("Dragon"))
+        {
+            StartCoroutine(((Dragon)target).SlowDown(slowDownStrenght, actionDuration));
+        }
     }
 }

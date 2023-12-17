@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem fireEffect;
-    [SerializeField] private ParticleSystem trailEffect;
+    [SerializeField] private GameObject fireEffectGO;
+    [SerializeField] private GameObject trailEffectGO;
     [SerializeField] private GameObject explosionEffectGO;
 
     private bool isActive = true;
@@ -88,8 +88,8 @@ public class Fireball : MonoBehaviour
     private IEnumerator Explode()
     {
         isActive = false;
-        fireEffect.Pause();
-        trailEffect.Pause();
+        fireEffectGO.SetActive(false);
+        trailEffectGO.SetActive(false);
         explosionEffectGO.SetActive(true);
         AudioManager.Instance.Stop("fireball-burning");
         AudioManager.Instance.Play($"fireball-explosion{Random.Range(1, 7)}");

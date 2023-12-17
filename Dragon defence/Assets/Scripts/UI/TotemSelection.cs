@@ -23,7 +23,7 @@ public class TotemSelection : MonoBehaviour
         buttons = GetComponentsInChildren<ITotemSelectionButton>();
 
         ToggleButtons(false);
-        manaCostTextGUI.gameObject.SetActive(false);
+        manaCostTextGUI.text = "";
     }
 
     void Update()
@@ -46,18 +46,20 @@ public class TotemSelection : MonoBehaviour
         {
             button.ToggleButton(state);
         }
+
+        HandleButtonPointerExit();
     }
 
-    public void HandleButtonPointerEnter(Vector3 buttonPos, Color buttonColor)
+    public void HandleButtonPointerEnter(Vector3 buttonPos, Color buttonColor, int manaCost)
     {
-        manaCostTextGUI.gameObject.SetActive(true);
         manaCostTextGUI.rectTransform.anchoredPosition = buttonPos + textOffset;
         manaCostTextGUI.color = buttonColor;
+        manaCostTextGUI.text = manaCost.ToString();
     }
 
     public void HandleButtonPointerExit()
     {
-        manaCostTextGUI.gameObject.SetActive(false);
+        manaCostTextGUI.text = "";
     }
 
     public void StartTotemSelection(int totemPlaceId)

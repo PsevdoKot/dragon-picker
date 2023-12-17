@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class Totem : MonoBehaviour
 {
     private Material material;
-    private SkinnedMeshRenderer render;
+    private MeshRenderer render;
 
     public int placeId { get; set; }
     public bool isReady { get; private set; } = false;
@@ -25,9 +25,14 @@ public abstract class Totem : MonoBehaviour
     private Color standartColor = new Color(1f, 1f, 1f);
     [SerializeField] private Color withShieldBodyColor = new Color(0.41f, 0.97f, 0.81f);
 
+    // void Awake()
+    // {
+    //     FightParamsManager.SubscribeOnFightLoad(this);
+    // }
+
     protected virtual void Start()
     {
-        render = GetComponentInChildren<SkinnedMeshRenderer>();
+        render = GetComponentInChildren<MeshRenderer>();
         material = render.materials[0];
 
         HP = maxHP;
@@ -133,6 +138,27 @@ public abstract class Totem : MonoBehaviour
         // добавить импакт
         TotemsRow.Instance.DestroyTotem(placeId);
     }
+
+    public void SetFightParams(FightParams fightParams)
+    {
+        switch (type)
+        {
+            default:
+            case TotemType.Water:
+
+                break;
+            case TotemType.Fire:
+
+                break;
+            case TotemType.Air:
+
+                break;
+            case TotemType.Earth:
+
+                break;
+        }
+    }
+
 
     public static explicit operator Totem(GameObject v)
     {

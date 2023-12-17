@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
     {
         isActive = false;
         anim.SetTrigger("dying");
-        AudioManager.Instance.Play(isMale ? $"player-dying{Random.Range(1, 3)}" : "f-player-hitted");
+        AudioManager.Instance.Play(isMale ? $"player-dying{Random.Range(1, 3)}" : "f-player-dying");
         StartCoroutine(Fight.Instance.PlayerDefeat());
     }
 

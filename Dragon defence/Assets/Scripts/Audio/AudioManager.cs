@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
         }
         else if (this != Instance)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         soundFileByName = new();
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
             sound.source.loop = sound.loop;
             sound.source.playOnAwake = sound.playOnAwake;
 
-            soundFileByName.Add(sound.name, sound);
+            soundFileByName.Add(sound.clip.name, sound);
         }
     }
 

@@ -12,7 +12,7 @@ public class AirTotem : Totem
     public int shieldAmount { get; protected set; } = 60;
     public override TotemType type { get; } = TotemType.Air;
     public override int manaCost { get; protected set; } = ManaCost;
-    protected override float timeBetweenActions { get; set; } = 15;
+    protected override float timeBetweenActions { get; set; } = 10;
 
     private string sphereTextureName;
     private Vector2 sphereTextureScale = new();

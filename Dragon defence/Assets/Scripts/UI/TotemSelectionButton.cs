@@ -10,6 +10,7 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
     private Image buttonImage;
     private RectTransform rectTransform;
 
+    private bool isActive;
     private int totemManaCost;
     private Color activeButtonColor = new Color(255, 255, 255);
     private Color hideButtonColor = new Color(255, 255, 255, 0f);
@@ -34,13 +35,14 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
 
     public void UpdateEnabled(float currentMana)
     {
-        var enabled = currentMana > totemManaCost;
-        button.enabled = enabled;
-        buttonImage.color = enabled ? activeButtonColor : disabledButtonColor;
+        var isEnabled = currentMana > totemManaCost;
+        button.enabled = isEnabled;
+        buttonImage.color = isEnabled ? activeButtonColor : disabledButtonColor;
     }
 
     public void ToggleButton(bool state)
     {
+        isActive = state;
         button.enabled = state;
         buttonImage.color = state ? activeButtonColor : hideButtonColor;
 
@@ -63,11 +65,15 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        TotemSelection.Instance.HandleButtonPointerEnter(rectTransform.anchoredPosition, buttonColor);
+        if (!isActive) return;
+
+        TotemSelection.Instance.HandleButtonPointerEnter(rectTransform.anchoredPosition, buttonColor, totemManaCost);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!isActive) return;
+
         TotemSelection.Instance.HandleButtonPointerExit();
     }
 }

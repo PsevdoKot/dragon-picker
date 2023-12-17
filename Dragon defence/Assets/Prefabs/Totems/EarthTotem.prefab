@@ -9766,13 +9766,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f605661b407964da40e7642e230f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  withShieldBodyColor: {r: 0.41, g: 0.97, b: 0.81, a: 1}
   spherePrefab: {fileID: 7993511349536147927, guid: 2ec691d81efaebd428afb3a3dc8df803, type: 3}
   sphereMaxScale: 0.3
   sphereMinScale: 0.02
   spherePos: {x: 0, y: 0.85, z: 0}
   timeBetweenSpheresAppearance: 1
   sphereSqueezingSpeed: 1.01
-  actionDuration: 8
+  actionDuration: 10
   slowDownStrenght: 2.5
 --- !u!136 &3934906774497774697
 CapsuleCollider:

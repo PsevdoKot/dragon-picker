@@ -20,7 +20,7 @@ public class Dragon : MonoBehaviour
     private Color standartColor = new Color(1f, 1f, 1f);
     [SerializeField] private Color slowDownBodyColor = new Color(1f, 0.73f, 0.35f);
     [SerializeField] private float timeToSleep = 4f;
-    [SerializeField] private float timeToWakeUp = 2f;
+    [SerializeField] private float timeToWakeUp = 3f;
     [SerializeField] private float speed = 4f;
     [SerializeField] private float xSpeed = 12f;
     [SerializeField] private float ySpeed = 6f;
@@ -29,7 +29,7 @@ public class Dragon : MonoBehaviour
     [SerializeField] private float maxTopDistance = -2f;
     [SerializeField] private float maxBottomDistance = -12f;
     [SerializeField] private float timeBetweenAttacks = 5f;
-    [SerializeField] private Vector3 fireballStartPos;
+    [SerializeField] private Vector3 fireballStartPos = new(0, 7f, 6f);
 
     void Start()
     {
@@ -72,11 +72,18 @@ public class Dragon : MonoBehaviour
 
         anim.SetBool("sleeping", false);
         AudioManager.Instance.Play($"dragon-awakening{Random.Range(1, 3)}");
+        // Invoke("PlayWingbeatSound", 3f);
         yield return new WaitForSecondsRealtime(timeToWakeUp);
 
         HP = maxHP;
         isActive = true;
         attackTimer = timeBetweenAttacks;
+    }
+
+    private void PlayWingbeatSound()
+    {
+        AudioManager.Instance.Play("dragon-flying");
+        Invoke("PlayWingbeatSound", 1f);
     }
 
     private void Move()

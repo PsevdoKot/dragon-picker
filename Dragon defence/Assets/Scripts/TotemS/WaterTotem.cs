@@ -16,7 +16,7 @@ public class WaterTotem : Totem
     private string sphereTextureName;
     private Vector2 sphereTextureOffset = new();
     [SerializeField] private float sphereRotationSpeed = 0.01f;
-    [SerializeField] private float manaIncresingAmount = 10;
+    [SerializeField] private float manaRegenAmount = 10;
 
     protected override void Start()
     {
@@ -56,10 +56,10 @@ public class WaterTotem : Totem
     public override void Action(GameObject target)
     {
         base.Action(target);
-        Player.Instance.IncreaseMana(manaIncresingAmount);
+        Player.Instance.IncreaseMana(manaRegenAmount);
         sphere.transform.localPosition = new Vector3(0, sphere.transform.localPosition.y - 0.3f, 0);
         sphere.SetActive(false);
 
-        // AudioManager.Instance.Play("water-totem-action");
+        AudioManager.Instance.Play("water-totem-action");
     }
 }

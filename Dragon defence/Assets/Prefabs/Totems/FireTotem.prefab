@@ -9681,9 +9681,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615d5d8cdfe57f644a4322ac3a3e0a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  withShieldBodyColor: {r: 0.41, g: 0.97, b: 0.81, a: 1}
   fire: {fileID: 163516}
   fireballStartPos: {x: 0, y: 0.8, z: 0}
-  firaballPrefab: {fileID: 2858053209896233088, guid: c15ed450e3825e64bbd8c094b06f3a6c, type: 3}
+  firaballPrefab: {fileID: 3861560274676236337, guid: c15ed450e3825e64bbd8c094b06f3a6c, type: 3}
 --- !u!136 &6645308459967789760
 CapsuleCollider:
   m_ObjectHideFlags: 0

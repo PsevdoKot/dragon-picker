@@ -21,7 +21,7 @@ public class EarthTotem : Totem
     [SerializeField] private Vector3 spherePos = new(0, 0.85f, 0);
     [SerializeField] private float timeBetweenSpheresAppearance = 1;
     [SerializeField] private float sphereSqueezingSpeed = 1.01f;
-    [SerializeField] private float actionDuration = 8;
+    [SerializeField] private float actionDuration = 10;
     [SerializeField] private float slowDownStrenght = 2.5f;
 
     protected override void Start()

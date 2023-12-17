@@ -44,6 +44,454 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19939e07f59d7b3439a6872e2bcd6418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundFiles: []
+  soundFiles:
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: 20a7b951562d15a499da41e701ac31e2, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: 03003f8bde45484429a33c88a049a2f8, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: bce9c030a69b24e4d88005fef480a97b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: 14a1cf915de1c2448b200ab123c01445, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: d9e280ca0b9d3ad4f83da6d4defd2c91, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: 5b59cce20f4d42a48b3069957f936fe4, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: b7ed02e436a6d814cb13fee4caea3686, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 705d9285ed4fbf44bb8de3b4f75ff969, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 0ba336cf7364d2b45b289e42769680cb, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: dece5eccc12d5ce4095175bd44814b04, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 99ecc323f26f33e4fb40ef28098c6f7a, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: c629fc6cf843ee34abd52b34b1644c0f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 1
+    clip: {fileID: 8300000, guid: 4be3d5b94f1af864395a9757ef94ac15, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: af26c517fec24854ea24ea416f86dae0, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 10d3769bce03a564cb29bf835c1813b9, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 74f36c474454c8546823cd5e54153101, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 3883dc7e56feeeb40a8d9cd7d87364fa, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: abcbbf1516fa7704688f5ded7a25c432, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 6ac798547f48247418e122cd42069b2e, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: aaff099dde4f8df46902a4125ffdb8e6, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: e11765b3c54c78d49bc6715ca2aafa89, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: db2f970bdfb19af43a1dacc92fb5e1a8, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: e0b6901230c7267419ee3ee69bc9152e, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: a798a6312d1b8d74ab4a4b7ff557fe16, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 8da0c4fcc4c045048821af69b71980bf, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: fd22faa0e2c7547438f26a66a68a6c72, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 771768d8b79aa904498b866eb5f31eac, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: accbbf6f71081604bbbaf28d6f3c66f3, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 1c69ce32a9c91784895ed9c41648ebe2, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 318d74ab2c889d24b9fd5006cfda509b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: ee9e5e5ec1a18d3498e790fc82a038e8, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 83a3d45944f24b647a973099cc6fb1d3, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 222141dd968fb6447b5c790b6d87a27b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 15b61cecc9c413944b23744fbd523914, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 1b1e870555539084e867c27366722812, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 3bbe242bc37c8614fbe02c843ed5b465, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: da5aeec65dfce4d449024607b399a5ec, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: ca679721d8a1b6243acc9a7ce566789b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 4e44e54a7843332488751c1d44253487, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 0b02c09b276fdeb40a0378331b9baef5, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: a2cb9f8f4930f7e48b48bf85834f464c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 9eb5fb985b7788a44a7ddfeafff09f67, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 6762ceb590d000d4ba26925ef813928f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 6dff3f77459ba6a4490c980d9de51c06, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: c1e7380b313412b478cf3b2f06e0ee90, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: de66ce7185e0789488e6577760c6c096, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: e6cbe58e86f84f046979114e597c466c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: dd150ebeb2005794b85cfdad3bfec2c8, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 2f7614dfed7a9a7418f398252a8f6683, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 4bbb8ba16cbcd7446a9c0fdf1b6a3dc2, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: feee4922e0947194fbd5cc4f52b77e3a, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 4e20965d346c8cb429f32ec17895437e, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 8c04a7304204ea24599bf77d91da99f5, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: a5b70df8e6bed8e409d1fd3adaacf049, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: cc7b7563cf2693c4eb7796bc45d64d3b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 657dfa6da6a0a7c488e5e965f5cb8666, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: b2b962534360ea64fa24b5827341d2ae, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 287a09d5c3bc9b24dba4c06469887c00, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 54ff7c82bd445104c8d7ddfb7b00e5fc, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: e2f60295900f31945854aff00352698e, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: fbed37afb67a3aa43989424b9a78ca13, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 2ef579ab8d92c7d428020b703024f71a, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 471fbd635dc1688478e3596466a505dc, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+  - audioGroup: 0
+    clip: {fileID: 8300000, guid: 6883e64e1017590418e856466ec1f826, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
   sfxAudioGroup: {fileID: 127500732007972694, guid: ba4e064f8ff1b204d8ec9a9ad8366786, type: 2}
   musicAudioGroup: {fileID: 5126911702615697033, guid: ba4e064f8ff1b204d8ec9a9ad8366786, type: 2}

@@ -9,7 +9,7 @@ public class TotemsUI : MonoBehaviour
 
     [SerializeField] private GameObject totemUIPrefab;
 
-    [SerializeField] private int totemsCount;
+    private int totemsCount = 6;
 
     private readonly Dictionary<int, float> xTotemLocalPosByPlaceId = new()
         { {0, -180}, {1, -276}, {2, -378}, {3, -476}, {4, -578}, {5, -678} };

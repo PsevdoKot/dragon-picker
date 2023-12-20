@@ -9,45 +9,54 @@ public class CursorManager : MonoBehaviour
 {
     public static CursorManager Instance { get; private set; }
 
-    public TotemType currentCursorType { get; private set; } // water = standart
+    public CursorType currentCursorType { get; private set; }
 
-    [SerializeField] private Texture2D standartCursor;
-    [SerializeField] private Texture2D fireCursor;
-    [SerializeField] private Texture2D airCursor;
-    [SerializeField] private Texture2D earthCursor;
+    private Dictionary<CursorType, Texture2D> cursorByType;
 
     private int fireballTargetAreaMask;
-    private Dictionary<TotemType, Texture2D> cursorByType;
+    [SerializeField] private CursorData[] cursorDatas;
 
     void Start()
     {
         Instance = this;
 
-        currentCursorType = TotemType.Water;
-        cursorByType = new() { {TotemType.Water, standartCursor}, {TotemType.Fire, fireCursor},
-                               {TotemType.Air, airCursor}, {TotemType.Earth, earthCursor} };
         fireballTargetAreaMask = LayerMask.NameToLayer("fireball-target-area");
         fireballTargetAreaMask = 1 << fireballTargetAreaMask;
 
-        Cursor.SetCursor(standartCursor, Vector2.zero, CursorMode.Auto);
+        cursorByType = new();
+        foreach (var cursorData in cursorDatas)
+        {
+            cursorByType.Add(cursorData.type, cursorData.texture);
+        }
+
+        currentCursorType = CursorType.StandartClick; // чтобы курсор поменялся после следующей строчки
+        ChangeCursorType(CursorType.Standart);
     }
 
     void Update()
     {
         var targeting = TargetSelection.Instance;
-        if (Input.GetMouseButtonDown(0) && targeting.isOccupied && targeting.initiatorType == TotemType.Fire)
+        if (targeting.isOccupied && targeting.initiatorType == TotemType.Fire)
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),
                 out RaycastHit hit, 50f, fireballTargetAreaMask))
             {
-                var temp = new GameObject("temp-fireball-target");
-                temp.transform.position = hit.point;
-                targeting.EndTargetSelection(temp);
+                ChangeCursorType(CursorType.FireClick);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    var temp = new GameObject("temp-fireball-target");
+                    temp.transform.position = hit.point;
+                    targeting.EndTargetSelection(temp);
+                }
+            }
+            else
+            {
+                ChangeCursorType(CursorType.Fire);
             }
         }
     }
 
-    public void ChangeCursorType(TotemType type)
+    public void ChangeCursorType(CursorType type)
     {
         if (type == currentCursorType) return;
 

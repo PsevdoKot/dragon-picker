@@ -13,17 +13,13 @@ public class DragonBar : MonoBehaviour
 
     void Start()
     {
-        if (Dragon.Instance.IsUnityNull())
-        {
-            Destroy(gameObject);
-        }
-
-        dragon = Dragon.Instance;
         rectTransform = GetComponent<RectTransform>();
     }
 
     void Update()
     {
+        dragon = Dragon.Instance;
+
         if (dragon.HP <= 0)
         {
             healthBar.SetActive(false);
@@ -37,6 +33,6 @@ public class DragonBar : MonoBehaviour
         var dragonPosOnScreen = Camera.main.WorldToScreenPoint(dragon.transform.position);
         rectTransform.anchoredPosition = new Vector3(dragonPosOnScreen.x, dragonPosOnScreen.y, 0);
 
-        health.fillAmount = (float)dragon.HP / dragon.maxHP;
+        health.fillAmount = (float)dragon.HP / Dragon.MaxHP;
     }
 }

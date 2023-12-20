@@ -4,23 +4,26 @@ using UnityEngine;
 
 public class WaterTotem : Totem
 {
-    static public int ManaCost { get; } = 30;
+    public static int ManaCost { get; set; } = 30;
+    public static int MaxHP { get; set; } = 30;
+    public static float TimeBetweenActions { get; set; } = 7f;
+    public static float ManaRegenAmount { get; set; } = 10;
+
+    public override TotemType type { get; } = TotemType.Water;
 
     private Material sphereMaterial;
     [SerializeField] private GameObject sphere;
 
-    public override TotemType type { get; } = TotemType.Water;
-    public override int manaCost { get; protected set; } = ManaCost;
-    protected override float timeBetweenActions { get; set; } = 7;
-
     private string sphereTextureName;
     private Vector2 sphereTextureOffset = new();
     [SerializeField] private float sphereRotationSpeed = 0.01f;
-    [SerializeField] private float manaRegenAmount = 10;
 
     protected override void Start()
     {
         base.Start();
+        HP = maxHP = MaxHP;
+        manaCost = ManaCost;
+        actionTimer = TimeBetweenActions;
 
         sphereMaterial = sphere.GetComponent<MeshRenderer>().material;
         sphereTextureName = sphereMaterial.GetTexturePropertyNames()[0];
@@ -56,7 +59,9 @@ public class WaterTotem : Totem
     public override void Action(GameObject target)
     {
         base.Action(target);
-        Player.Instance.IncreaseMana(manaRegenAmount);
+        actionTimer = TimeBetweenActions;
+
+        Player.Instance.IncreaseMana(ManaRegenAmount);
         sphere.transform.localPosition = new Vector3(0, sphere.transform.localPosition.y - 0.3f, 0);
         sphere.SetActive(false);
 

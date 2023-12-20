@@ -4,17 +4,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using YG;
+using System.Linq;
 
 public class Fight : MonoBehaviour
 {
     public static Fight Instance { get; private set; }
 
+    public static DragonType DragonType { get; set; } = DragonType.Usurper;
+    public static CharacterType CharacterType { get; set; } = CharacterType.Male;
+
     [SerializeField] private TextMeshProUGUI textGUI;
+
 
     [SerializeField] private string winText;
     [SerializeField] private string defeatText;
     [SerializeField] private float timeForWin = 5f;
     [SerializeField] private float timeForDefeat = 5f;
+    [SerializeField] private Vector3 dragonStartPos = new(0, -10.9f, -17f);
+    [SerializeField] private Vector3 characterPos = new(-2.2f, -10.5f, 6f);
+    [SerializeField] private Quaternion dragonRotation = new(0, 0, 0, 0);
+    [SerializeField] private Quaternion characterRotation = new(0, 0, 0, 0);
+    [SerializeField] private DragonData[] dragonDatas;
+    [SerializeField] private CharacterData[] characterDatas;
 
     void Start()
     {
@@ -22,12 +33,22 @@ public class Fight : MonoBehaviour
 
         textGUI.text = "";
 
+        SetPlayer();
+        SetDragon();
+
         StartCoroutine(PlayAudio());
     }
 
-    void Update()
+    private void SetPlayer()
     {
+        var character = Instantiate(characterDatas.First((data) => data.type == CharacterType).prefab,
+            characterPos, characterRotation);
+    }
 
+    private void SetDragon()
+    {
+        var dragon = Instantiate(dragonDatas.First((data) => data.type == DragonType).prefab,
+            dragonStartPos, dragonRotation);
     }
 
     private IEnumerator PlayAudio()

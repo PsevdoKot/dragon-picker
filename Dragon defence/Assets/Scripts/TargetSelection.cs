@@ -30,7 +30,7 @@ public class TargetSelection : MonoBehaviour
         if (isOccupied) return;
 
         SaveData(initiator);
-        CursorManager.Instance.ChangeCursorType(initiator.type);
+        CursorManager.Instance.ChangeCursorType((CursorType)initiator.type);
     }
 
     public void InterruptTargetSelection(int placeId)
@@ -38,7 +38,7 @@ public class TargetSelection : MonoBehaviour
         if (initiatorPlaceId == placeId)
         {
             isOccupied = false;
-            CursorManager.Instance.ChangeCursorType(TotemType.Water);
+            CursorManager.Instance.ChangeCursorType(CursorType.Standart);
         }
     }
 
@@ -46,6 +46,6 @@ public class TargetSelection : MonoBehaviour
     {
         isOccupied = false;
         currentInitiator.Action(target);
-        CursorManager.Instance.ChangeCursorType(TotemType.Water);
+        CursorManager.Instance.ChangeCursorType(CursorType.Standart);
     }
 }

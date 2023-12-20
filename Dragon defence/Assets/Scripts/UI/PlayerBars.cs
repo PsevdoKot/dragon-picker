@@ -12,16 +12,12 @@ public class PlayerBars : MonoBehaviour
     [SerializeField] private Image shield;
     [SerializeField] private TextMeshProUGUI manaAmountTextGUI;
 
-    void Start()
-    {
-        player = Player.Instance;
-    }
-
     void Update()
     {
-        manaAmountTextGUI.text = $"{(int)player.mana}/{player.maxMana}";
-        mana.fillAmount = player.mana / player.maxMana;
-        health.fillAmount = (float)player.HP / player.maxHP;
+        player = Player.Instance;
+        manaAmountTextGUI.text = $"{(int)player.mana}/{Player.MaxMana}";
+        mana.fillAmount = player.mana / Player.MaxMana;
+        health.fillAmount = (float)player.HP / Player.MaxHP;
         shield.fillAmount = player.maxShield > 0 ? (float)player.shield / player.maxShield : 0;
     }
 }

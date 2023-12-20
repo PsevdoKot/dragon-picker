@@ -6,43 +6,46 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
+    public static int MaxMana { get; set; } = 100;
+    public static int MaxHP { get; set; } = 100;
+    public static float ManaRegenSpeed { get; set; } = 0.005f;
+
+    public bool isActive { get; private set; } = true;
+    public float mana { get; set; }
+    public int HP { get; private set; }
+    public int shield { get; private set; } = 0;
+    public int maxShield { get; private set; } = 0;
+
     private Animator anim;
     private Material material;
     private SkinnedMeshRenderer render;
 
-    public bool isActive { get; private set; } = true;
-    public float mana { get; set; }
-    public float maxMana { get; private set; } = 100;
-    public int HP { get; private set; }
-    public int maxHP { get; private set; } = 100;
-    public int shield { get; private set; } = 0;
-    public int maxShield { get; private set; } = 0;
-
     private bool isMale;
     private Color standartColor = new Color(1f, 1f, 1f);
     [SerializeField] private Color withShieldBodyColor = new Color(0.41f, 0.97f, 0.81f);
-    [SerializeField] private float manaRegenSpeed = 0.005f;
 
     void Start()
     {
         Instance = this;
+
         anim = GetComponent<Animator>();
         render = GetComponentInChildren<SkinnedMeshRenderer>();
         material = render.materials[0];
 
-        mana = maxMana;
-        HP = maxHP;
+        mana = MaxMana;
+        HP = MaxHP;
     }
 
     void Update()
     {
         if (!isActive) return;
+
         RegenMana();
     }
 
     private void ClampMana()
     {
-        mana = Mathf.Clamp(mana, 0, maxMana);
+        mana = Mathf.Clamp(mana, 0, MaxMana);
     }
 
     public void IncreaseMana(float amount)
@@ -59,13 +62,8 @@ public class Player : MonoBehaviour
 
     private void RegenMana()
     {
-        mana += manaRegenSpeed;
+        mana += ManaRegenSpeed;
         ClampMana();
-    }
-
-    public void AddManaRegenSpeed(float regenSpeed)
-    {
-        manaRegenSpeed += regenSpeed;
     }
 
     public IEnumerator AddShieldAmount(int amount, float duration)

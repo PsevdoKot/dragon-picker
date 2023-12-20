@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class AirTotem : Totem
 {
-    static public int ManaCost { get; } = 20;
+    public static int ManaCost { get; set; } = 20;
+    public static int MaxHP { get; set; } = 30;
+    public static float TimeBetweenActions { get; set; } = 10f;
+    public static float ShieldDuration { get; set; } = 15f;
+    public static int ActionShieldAmount { get; set; } = 60;
+
+    public override TotemType type { get; } = TotemType.Air;
 
     private Material sphereMaterial;
     [SerializeField] private GameObject sphere;
-
-    public int shieldAmount { get; protected set; } = 60;
-    public override TotemType type { get; } = TotemType.Air;
-    public override int manaCost { get; protected set; } = ManaCost;
-    protected override float timeBetweenActions { get; set; } = 10;
 
     private string sphereTextureName;
     private Vector2 sphereTextureScale = new();
@@ -21,11 +22,13 @@ public class AirTotem : Totem
     [SerializeField] private float sphereMaxScale = 7;
     [SerializeField] private float sphereXScalingSpeed = 0.01f;
     [SerializeField] private float sphereYScalingSpeed = 0.015f;
-    [SerializeField] private float actionDuration = 15;
 
     protected override void Start()
     {
         base.Start();
+        HP = maxHP = MaxHP;
+        manaCost = ManaCost;
+        actionTimer = TimeBetweenActions;
 
         sphereMaterial = sphere.GetComponent<MeshRenderer>().material;
         sphereTextureName = sphereMaterial.GetTexturePropertyNames()[0];
@@ -71,17 +74,18 @@ public class AirTotem : Totem
     public override void Action(GameObject target)
     {
         base.Action(target);
+        actionTimer = TimeBetweenActions;
 
         sphere.transform.localPosition = new Vector3(0, sphere.transform.localPosition.y - 0.3f, 0);
         sphere.SetActive(false);
 
         if (target.CompareTag("Totem"))
         {
-            StartCoroutine(((Totem)target).AddShieldAmount(shieldAmount, actionDuration));
+            StartCoroutine(((Totem)target).AddShieldAmount(ActionShieldAmount, ShieldDuration));
         }
         else if (target.CompareTag("Player"))
         {
-            StartCoroutine(((Player)target).AddShieldAmount(shieldAmount, actionDuration));
+            StartCoroutine(((Player)target).AddShieldAmount(ActionShieldAmount, ShieldDuration));
         }
 
         AudioManager.Instance.Play("air-totem-action");

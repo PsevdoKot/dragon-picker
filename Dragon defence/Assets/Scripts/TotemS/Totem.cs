@@ -8,35 +8,28 @@ public abstract class Totem : MonoBehaviour
 {
     private Material material;
     private MeshRenderer render;
+    [SerializeField] private ParticleSystem hitEffect;
+    [SerializeField] private ParticleSystem destroyEffect;
 
     public int placeId { get; set; }
     public bool isReady { get; private set; } = false;
-    public int HP { get; private set; }
-    public int maxHP { get; private set; } = 30;
+    public int HP { get; protected set; }
+    public int maxHP { get; protected set; } // дубликат для предоставления информации соответствующему UI
+    public int manaCost { get; protected set; } // дубликат для предоставления информации TotemsRow
     public int shield { get; private set; } = 0;
     public int maxShield { get; private set; } = 0;
-    public float actionTimer { get; private set; }
-    abstract public TotemType type { get; }
-    abstract public int manaCost { get; protected set; }
-    abstract protected float timeBetweenActions { get; set; }
+    public float actionTimer { get; protected set; }
+    public abstract TotemType type { get; }
 
     private bool isActive = true;
     private bool isShieldDestructed = false;
     private Color standartColor = new Color(1f, 1f, 1f);
     [SerializeField] private Color withShieldBodyColor = new Color(0.41f, 0.97f, 0.81f);
 
-    // void Awake()
-    // {
-    //     FightParamsManager.SubscribeOnFightLoad(this);
-    // }
-
     protected virtual void Start()
     {
         render = GetComponentInChildren<MeshRenderer>();
         material = render.materials[0];
-
-        HP = maxHP;
-        actionTimer = timeBetweenActions;
     }
 
     protected virtual void Update()
@@ -66,7 +59,6 @@ public abstract class Totem : MonoBehaviour
     public virtual void Action(GameObject target)
     {
         isReady = false;
-        actionTimer = timeBetweenActions;
     }
 
     public IEnumerator AddShieldAmount(int amount, float duration)
@@ -110,7 +102,7 @@ public abstract class Totem : MonoBehaviour
         HP -= damageAmount;
         if (HP > 0)
         {
-            // добавить импакт
+            hitEffect.Play();
         }
         else
         {
@@ -135,30 +127,10 @@ public abstract class Totem : MonoBehaviour
     protected virtual void DestroyTotem()
     {
         isActive = false;
-        // добавить импакт
+        hitEffect.Play();
+        destroyEffect.Play();
         TotemsRow.Instance.DestroyTotem(placeId);
     }
-
-    public void SetFightParams(FightParams fightParams)
-    {
-        switch (type)
-        {
-            default:
-            case TotemType.Water:
-
-                break;
-            case TotemType.Fire:
-
-                break;
-            case TotemType.Air:
-
-                break;
-            case TotemType.Earth:
-
-                break;
-        }
-    }
-
 
     public static explicit operator Totem(GameObject v)
     {

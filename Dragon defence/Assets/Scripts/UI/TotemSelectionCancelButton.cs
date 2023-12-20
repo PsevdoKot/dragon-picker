@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TotemSelectionCancelButton : MonoBehaviour, ITotemSelectionButton
+public class TotemSelectionCancelButton : MonoBehaviour, ITotemSelectionButton, IPointerEnterHandler, IPointerExitHandler
 {
     private Button button;
     private Image buttonImage;
@@ -40,5 +40,15 @@ public class TotemSelectionCancelButton : MonoBehaviour, ITotemSelectionButton
         TotemSelection.Instance.CancelTotemSelection();
 
         AudioManager.Instance.Play("in-fight-click");
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        CursorManager.Instance.ChangeCursorType(CursorType.StandartClick);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        CursorManager.Instance.ChangeCursorType(CursorType.Standart);
     }
 }

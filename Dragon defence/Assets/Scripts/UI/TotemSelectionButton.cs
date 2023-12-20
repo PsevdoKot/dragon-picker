@@ -11,6 +11,7 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
     private RectTransform rectTransform;
 
     private bool isActive;
+    private bool isEnabled; // можно ли кликнуть
     private int totemManaCost;
     private Color activeButtonColor = new Color(255, 255, 255);
     private Color hideButtonColor = new Color(255, 255, 255, 0f);
@@ -25,7 +26,8 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
             TotemType.Water => WaterTotem.ManaCost,
             TotemType.Fire => FireTotem.ManaCost,
             TotemType.Air => AirTotem.ManaCost,
-            _ => EarthTotem.ManaCost,
+            TotemType.Earth => EarthTotem.ManaCost,
+            _ => throw new System.Exception("The new totem button has not been processed"),
         };
 
         button = GetComponent<Button>();
@@ -35,7 +37,7 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
 
     public void UpdateEnabled(float currentMana)
     {
-        var isEnabled = currentMana > totemManaCost;
+        isEnabled = currentMana > totemManaCost;
         button.enabled = isEnabled;
         buttonImage.color = isEnabled ? activeButtonColor : disabledButtonColor;
     }
@@ -58,6 +60,7 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
 
     private void HandleClick()
     {
+        CursorManager.Instance.ChangeCursorType(CursorType.Standart);
         TotemSelection.Instance.EndTotemSelection(buttonType);
 
         AudioManager.Instance.Play("in-fight-click");
@@ -67,12 +70,22 @@ public class TotemSelectionButton : MonoBehaviour, ITotemSelectionButton, IPoint
     {
         if (!isActive) return;
 
+        if (isEnabled)
+        {
+            CursorManager.Instance.ChangeCursorType(CursorType.StandartClick);
+        }
+
         TotemSelection.Instance.HandleButtonPointerEnter(rectTransform.anchoredPosition, buttonColor, totemManaCost);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!isActive) return;
+
+        if (isEnabled)
+        {
+            CursorManager.Instance.ChangeCursorType(CursorType.Standart);
+        }
 
         TotemSelection.Instance.HandleButtonPointerExit();
     }

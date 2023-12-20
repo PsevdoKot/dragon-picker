@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class FireTotem : Totem
 {
-    static public int ManaCost { get; } = 40;
-
-    [SerializeField] private GameObject fire;
+    public static int ManaCost { get; set; } = 40;
+    public static int MaxHP { get; set; } = 30;
+    public static float TimeBetweenActions { get; set; } = 5f;
 
     public override TotemType type { get; } = TotemType.Fire;
-    public override int manaCost { get; protected set; } = ManaCost;
-    protected override float timeBetweenActions { get; set; } = 5;
+
+    [SerializeField] private GameObject fire;
 
     [SerializeField] private Vector3 fireballStartPos;
     [SerializeField] private GameObject firaballPrefab;
@@ -18,6 +18,9 @@ public class FireTotem : Totem
     protected override void Start()
     {
         base.Start();
+        HP = maxHP = MaxHP;
+        manaCost = ManaCost;
+        actionTimer = TimeBetweenActions;
     }
 
     protected override void Update()
@@ -49,6 +52,7 @@ public class FireTotem : Totem
     public override void Action(GameObject target)
     {
         base.Action(target);
+        actionTimer = TimeBetweenActions;
 
         fire.SetActive(false);
         AudioManager.Instance.Stop("fire-burning");

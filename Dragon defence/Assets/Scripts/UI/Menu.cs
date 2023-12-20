@@ -14,8 +14,6 @@ public class Menu : MonoBehaviour
 
     void Start()
     {
-        var scoreGO = GameObject.Find("Score");
-        scoreText = scoreGO.GetComponent<TextMeshProUGUI>();
 
         if (YandexGame.SDKEnabled)
         {
@@ -28,13 +26,6 @@ public class Menu : MonoBehaviour
 
     }
 
-    // public void PlayerLose()
-    // {
-    //     LoadDataToSave(int.Parse(scoreText.text));
-    //     YandexGame.NewLeaderboardScores("TopPlayersScore", YandexGame.savesData.playerScore);
-    //     SceneManager.LoadScene("Menu");
-    // }
-
     public void LoadDataFromSave()
     {
 
@@ -42,8 +33,8 @@ public class Menu : MonoBehaviour
 
     public void LoadDataToSave(int score)
     {
-        YandexGame.savesData.playerScore = score;
-        YandexGame.SaveProgress();
+        // YandexGame.savesData.totalScore = score;
+        // YandexGame.SaveProgress();
     }
 
     public void LoadFight()

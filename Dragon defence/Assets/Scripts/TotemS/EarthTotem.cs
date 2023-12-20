@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class EarthTotem : Totem
 {
-    static public int ManaCost { get; } = 20;
-
-    [SerializeField] private GameObject spherePrefab;
+    public static int ManaCost { get; set; } = 20;
+    public static int MaxHP { get; set; } = 30;
+    public static float TimeBetweenActions { get; set; } = 20f;
+    public static float SlowDownDuration { get; set; } = 10f;
+    public static float SlowDownStrength { get; set; } = 2.5f;
 
     public override TotemType type { get; } = TotemType.Earth;
-    public override int manaCost { get; protected set; } = ManaCost;
-    protected override float timeBetweenActions { get; set; } = 20;
+
+    [SerializeField] private GameObject spherePrefab;
 
     private float sphereAppearanceTimer;
     private List<GameObject> spheres = new();
@@ -21,12 +23,14 @@ public class EarthTotem : Totem
     [SerializeField] private Vector3 spherePos = new(0, 0.85f, 0);
     [SerializeField] private float timeBetweenSpheresAppearance = 1;
     [SerializeField] private float sphereSqueezingSpeed = 1.01f;
-    [SerializeField] private float actionDuration = 10;
-    [SerializeField] private float slowDownStrenght = 2.5f;
 
     protected override void Start()
     {
         base.Start();
+        HP = maxHP = MaxHP;
+        manaCost = ManaCost;
+        actionTimer = TimeBetweenActions;
+
         sphereAppearanceTimer = 0;
     }
 
@@ -103,12 +107,13 @@ public class EarthTotem : Totem
     public override void Action(GameObject target)
     {
         base.Action(target);
+        actionTimer = TimeBetweenActions;
 
         DestroySpheres();
 
         if (target.CompareTag("Dragon"))
         {
-            StartCoroutine(((Dragon)target).SlowDown(slowDownStrenght, actionDuration));
+            StartCoroutine(((Dragon)target).SlowDown(SlowDownStrength, SlowDownDuration));
         }
 
         AudioManager.Instance.Play("earth-totem-action");

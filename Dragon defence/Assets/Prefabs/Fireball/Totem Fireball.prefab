@@ -9689,10 +9689,9 @@ MonoBehaviour:
   fireEffectGO: {fileID: 636303200112102595}
   trailEffectGO: {fileID: 4290582930038900203}
   explosionEffectGO: {fileID: 3424322373142311117}
-  speed: 0.5
+  type: 1
   timeAfterMiss: 3
   timeForExplosion: 1
-  damageAmount: 15
   damageRadius: 0.3
   masksAbleToDamage:
     serializedVersion: 2

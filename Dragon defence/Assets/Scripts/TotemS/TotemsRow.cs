@@ -29,11 +29,11 @@ public class TotemsRow : MonoBehaviour
     {
         GameObject totemPrefab = type switch
         {
+            TotemType.Water => waterTotemPrefab,
             TotemType.Fire => fireTotemPrefab,
             TotemType.Air => airTotemPrefab,
             TotemType.Earth => earthTotemPrefab,
-            TotemType.Water => waterTotemPrefab,
-            _ => throw new System.Exception("Wrong totem type to create"),
+            _ => throw new System.Exception("The new totem type has not been processed"),
         };
         GameObject totemGO = Instantiate(totemPrefab, transform);
         totemGO.transform.localPosition = new Vector3(xTotemLocalPosByPlaceId[placeId], -5, 0);
@@ -43,9 +43,18 @@ public class TotemsRow : MonoBehaviour
         totem.placeId = placeId;
         Totems[placeId] = totem;
 
-        TotemButtons.Instance.HandleTotemAppearance(placeId);
+        TotemButtons.Instance.HideButton(placeId);
 
-        StartCoroutine(Player.Instance.PlaceTotem(totem.manaCost));
+        var manaCost = totem.type switch
+        {
+            TotemType.Water => WaterTotem.ManaCost,
+            TotemType.Fire => FireTotem.ManaCost,
+            TotemType.Air => AirTotem.ManaCost,
+            TotemType.Earth => EarthTotem.ManaCost,
+            _ => throw new System.Exception("The new totem type has not been processed"),
+        };
+
+        StartCoroutine(Player.Instance.PlaceTotem(manaCost));
 
         AudioManager.Instance.Play("totem-apperance");
     }
@@ -67,7 +76,7 @@ public class TotemsRow : MonoBehaviour
     public void DestroyTotem(int placeId)
     {
         TargetSelection.Instance.InterruptTargetSelection(placeId);
-        TotemButtons.Instance.HandleTotemDestroy(placeId);
+        TotemButtons.Instance.ShowButton(placeId);
         Destroy(Totems[placeId].gameObject);
     }
 }

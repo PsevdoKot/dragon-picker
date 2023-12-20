@@ -9,10 +9,7 @@ public class TotemButtons : MonoBehaviour
 {
     public static TotemButtons Instance;
 
-    private Button[] buttons;
-    private Dictionary<int, Image> buttonsImageByPlaceId = new();
-    private Dictionary<int, TextMeshProUGUI> buttonsTextByPlaceId = new();
-    private float initialButtonAlpha;
+    private TotemButton[] buttons;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] public int buttonsCount { get; private set; } = 6;
 
@@ -23,17 +20,11 @@ public class TotemButtons : MonoBehaviour
     {
         Instance = this;
 
-        buttons = new Button[buttonsCount];
+        buttons = new TotemButton[buttonsCount];
         for (var i = 0; i < buttonsCount; i++)
         {
             CreateButton(i);
         }
-        initialButtonAlpha = buttons[0].GetComponent<Image>().color.a;
-    }
-
-    void Update()
-    {
-
     }
 
     private void CreateButton(int placeId)
@@ -41,62 +32,20 @@ public class TotemButtons : MonoBehaviour
         var buttonGO = Instantiate(buttonPrefab, transform);
         buttonGO.transform.localPosition = new Vector3(xButtonPosByPlaceId[placeId], 0, 0);
 
-        var button = buttonGO.GetComponent<Button>();
-        button.onClick.AddListener(() => HandleButtonClick(placeId));
-        buttons[placeId] = button;
-
-        buttonsImageByPlaceId.Add(placeId, button.GetComponent<Image>());
-        buttonsTextByPlaceId.Add(placeId, buttonGO.GetComponentInChildren<TextMeshProUGUI>());
+        var buttonScript = buttonGO.GetComponent<TotemButton>();
+        buttonScript.Init(placeId);
+        buttons[placeId] = buttonScript;
     }
 
-    private void HandleButtonClick(int placeId)
+    public void HideButton(int placeId)
     {
-        if (!Player.Instance.isActive) return;
-
-        var totem = TotemsRow.Totems[placeId];
-        if (totem.IsUnityNull())
-        {
-            TotemSelection.Instance.StartTotemSelection(placeId);
-            AudioManager.Instance.Play("in-fight-click");
-        }
-        else
-        {
-            var targeting = TargetSelection.Instance;
-            if (targeting.isOccupied && targeting.initiatorType == TotemType.Air)
-            {
-                targeting.EndTargetSelection(totem.gameObject);
-                AudioManager.Instance.Play("totem-target-selection");
-            }
-            else if (totem.isReady)
-            {
-                totem.PrepareAction();
-                AudioManager.Instance.Play("in-fight-click");
-            }
-        }
-
-    }
-
-    public void HandleTotemAppearance(int placeId)
-    {
-        var buttonImage = buttonsImageByPlaceId[placeId];
-        buttonImage.color = buttonImage.color.WithAlpha(0);
-        buttonsTextByPlaceId[placeId].gameObject.SetActive(false);
+        buttons[placeId].Hide();
         TotemsUI.Instance.CreateTotemUI(placeId);
     }
 
-    public void HandleTotemDestroy(int placeId)
+    public void ShowButton(int placeId)
     {
-        var buttonImage = buttonsImageByPlaceId[placeId];
-        buttonImage.color = buttonImage.color.WithAlpha(initialButtonAlpha);
-        buttonsTextByPlaceId[placeId].gameObject.SetActive(true);
+        buttons[placeId].Show();
         TotemsUI.Instance.RemoveTotemUI(placeId);
-    }
-
-    void OnDestroy()
-    {
-        foreach (var button in buttons)
-        {
-            button.onClick.RemoveAllListeners();
-        }
     }
 }

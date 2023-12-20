@@ -6,47 +6,49 @@ public class Dragon : MonoBehaviour
 {
     public static Dragon Instance { get; private set; }
 
+    // public static GameObject DragonPrefab { get; set; };
+    public static int MaxHP { get; set; } = 100;
+    public static float Speed { get; set; } = 4f;
+    public static float XSpeed { get; set; } = 12f;
+    public static float YSpeed { get; set; } = 6f;
+    public static float AttackSpeed { get; set; } = 5f;
+
+    [SerializeField] public int HP { get; private set; }
+
     private Animator anim;
     private Material material;
     private SkinnedMeshRenderer render;
     [SerializeField] private GameObject dragonFireballPrefab;
 
-    [SerializeField] public int HP { get; private set; }
-    [SerializeField] public int maxHP { get; private set; } = 100;
-
     private bool isActive = false;
-    private int moveDirection = 1;
+    private bool isAttacking = false;
     private float attackTimer;
     private Color standartColor = new Color(1f, 1f, 1f);
-    [SerializeField] private Color slowDownBodyColor = new Color(1f, 0.73f, 0.35f);
+    private Vector3 movementVector;
+    [SerializeField] private DragonType type;
     [SerializeField] private float timeToSleep = 4f;
     [SerializeField] private float timeToWakeUp = 3f;
-    [SerializeField] private float speed = 4f;
-    [SerializeField] private float xSpeed = 12f;
-    [SerializeField] private float ySpeed = 6f;
     [SerializeField] private float maxLeftDistance = 18f;
     [SerializeField] private float maxRightDistance = -18f;
     [SerializeField] private float maxTopDistance = -2f;
     [SerializeField] private float maxBottomDistance = -12f;
-    [SerializeField] private float timeBetweenAttacks = 5f;
+    [SerializeField] private Color slowDownBodyColor = new Color(1f, 0.73f, 0.35f);
     [SerializeField] private Vector3 fireballStartPos = new(0, 7f, 6f);
+    [SerializeField] private Material[] materials;
 
     void Start()
     {
         Instance = this;
 
-        HP = -1;
         anim = GetComponent<Animator>();
         render = GetComponentInChildren<SkinnedMeshRenderer>();
-        material = render.materials[0];
+        material = materials[Random.Range(0, 4)];
+        render.material = material;
+
+        HP = -1; // ставим ниже 0, чтобы не показывать hp bar, пока дракон не проснётся
 
         anim.SetBool("sleeping", true);
         StartCoroutine("WakeUp");
-
-        // скрипт
-        // tag
-        // layer
-        // коллайдер
     }
 
     void Update()
@@ -56,13 +58,14 @@ public class Dragon : MonoBehaviour
         if (attackTimer <= 0)
         {
             StartCoroutine(Attack());
-            attackTimer = timeBetweenAttacks;
+            attackTimer = AttackSpeed;
         }
         else
         {
             attackTimer -= Time.deltaTime;
         }
 
+        if (type == DragonType.Nightmare && isAttacking) return;
         Move();
     }
 
@@ -75,9 +78,9 @@ public class Dragon : MonoBehaviour
         // Invoke("PlayWingbeatSound", 3f);
         yield return new WaitForSecondsRealtime(timeToWakeUp);
 
-        HP = maxHP;
+        HP = MaxHP;
         isActive = true;
-        attackTimer = timeBetweenAttacks;
+        attackTimer = AttackSpeed;
     }
 
     private void PlayWingbeatSound()
@@ -88,12 +91,11 @@ public class Dragon : MonoBehaviour
 
     private void Move()
     {
-        var movementVector = RandomMovementVector();
-        transform.position = transform.position + (movementVector * speed * Time.deltaTime);
+        movementVector = RandomMovementVector();
+        if (type == DragonType.Nightmare) movementVector.y = 0;
+        transform.position = transform.position + (movementVector * Speed * Time.deltaTime);
 
         RestrictMovementInArea();
-
-        CalculateMoveDirection(movementVector);
         UpdateAnimation();
     }
 
@@ -102,23 +104,7 @@ public class Dragon : MonoBehaviour
         float x = Mathf.PerlinNoise(Time.time, 925714);
         float y = Mathf.PerlinNoise(Time.time, 345318);
 
-        return new Vector3((x - 0.465f) * xSpeed, (y - 0.465f) * ySpeed, 0);
-    }
-
-    private void CalculateMoveDirection(Vector3 movementVector)
-    {
-        if (movementVector.x > 0.1)
-        {
-            moveDirection = 1;
-        }
-        else if (movementVector.x < -0.1)
-        {
-            moveDirection = -1;
-        }
-        else
-        {
-            moveDirection = 0;
-        }
+        return new Vector3((x - 0.465f) * XSpeed, (y - 0.465f) * YSpeed, 0);
     }
 
     private void RestrictMovementInArea()
@@ -144,13 +130,14 @@ public class Dragon : MonoBehaviour
 
     private void UpdateAnimation()
     {
-        anim.SetInteger("moveDirection", moveDirection);
+        anim.SetInteger("moveDirection", movementVector.x > 0.05 ? 1 : movementVector.x < -0.05 ? -1 : 0);
     }
 
     private IEnumerator Attack()
     {
+        isAttacking = true;
         anim.SetTrigger("attacking");
-        yield return new WaitForSecondsRealtime(1.10f);
+        yield return new WaitForSecondsRealtime(type == DragonType.SoulEater ? 0.3f : 1.10f);
 
         var totemsId = TotemsRow.Instance.GetExistingTotemsId();
         var rand = Random.Range(0, totemsId.Count + 1);
@@ -171,15 +158,18 @@ public class Dragon : MonoBehaviour
         var fireballGO = Instantiate(dragonFireballPrefab);
         fireballGO.transform.position = startPos;
         fireballGO.GetComponent<Fireball>().Init(targetPos, direction);
+
+        yield return new WaitForSecondsRealtime(0.3f);
+        isAttacking = false;
     }
 
     public IEnumerator SlowDown(float strength, float duration)
     {
-        speed /= strength;
+        Speed /= strength;
         material.SetColor("_Color", slowDownBodyColor);
         yield return new WaitForSecondsRealtime(duration);
 
-        speed *= strength;
+        Speed *= strength;
         material.SetColor("_Color", standartColor);
     }
 
@@ -203,7 +193,7 @@ public class Dragon : MonoBehaviour
         anim.SetTrigger("dying");
         StartCoroutine(gameObject.MoveObjectSmoothly(new Vector3(transform.position.x, -10.5f, transform.position.z), 1f));
         AudioManager.Instance.Play($"dragon-dying{Random.Range(1, 3)}");
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(2f);
 
         StartCoroutine(Fight.Instance.PlayerWin());
     }

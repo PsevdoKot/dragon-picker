@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
+    public static int DragonFireballDamage { get; set; } = 20;
+    public static float DragonFireballSpeed { get; set; } = 0.5f;
+    public static int TotemFireballDamage { get; set; } = 15;
+    public static float TotemFireballSpeed { get; set; } = 0.5f;
+
     [SerializeField] private GameObject fireEffectGO;
     [SerializeField] private GameObject trailEffectGO;
     [SerializeField] private GameObject explosionEffectGO;
 
     private bool isActive = true;
     private bool isTargetMissed = false;
+    private float speed;
+    private int damageAmount;
     private Vector3 targetPos;
     private Vector3 direction;
-    [SerializeField] private float speed;
+    [SerializeField] private FireballType type;
     [SerializeField] private float timeAfterMiss;
     [SerializeField] private float timeForExplosion;
-    [SerializeField] private int damageAmount;
     [SerializeField] private float damageRadius;
     [SerializeField] private LayerMask masksAbleToDamage;
 
@@ -30,7 +36,19 @@ public class Fireball : MonoBehaviour
         this.direction = direction;
         transform.LookAt(transform.position + direction);
 
+        SetParamsDependingOnType();
+
         StartCoroutine(PlaySound());
+    }
+
+    private void SetParamsDependingOnType()
+    {
+        (speed, damageAmount) = type switch
+        {
+            FireballType.Dragon => (DragonFireballSpeed, DragonFireballDamage),
+            FireballType.Totem => (TotemFireballSpeed, TotemFireballDamage),
+            _ => throw new System.Exception("The new fireball type has not been processed"),
+        };
     }
 
     void Update()

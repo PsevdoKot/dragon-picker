@@ -11,7 +11,7 @@ public class PlayerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (targeting.isOccupied && targeting.initiatorType == TotemType.Air)
         {
             targeting.EndTargetSelection(Player.Instance.gameObject);
-            AudioManager.Instance.Play("totem-target-selection");
+            AudioManager.Instance.Play("totem-target-select");
         }
     }
 

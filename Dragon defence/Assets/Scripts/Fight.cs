@@ -10,14 +10,18 @@ public class Fight : MonoBehaviour
 {
     public static Fight Instance { get; private set; }
 
+    public static int RoadMapStep { get; set; } = 0;
+    public static int WinScoreReward { get; set; } = 10;
+    public static int DefeatScoreReward { get; set; } = 1;
     public static DragonType DragonType { get; set; } = DragonType.Usurper;
     public static CharacterType CharacterType { get; set; } = CharacterType.Male;
 
-    [SerializeField] private TextMeshProUGUI textGUI;
+    private TextMeshProUGUI fightInfoTextGUI;
+    [SerializeField] private GameObject fightInfoGO;
 
-
-    [SerializeField] private string winText;
-    [SerializeField] private string defeatText;
+    [SerializeField] private string winText = "Вы победили";
+    [SerializeField] private string defeatText = "Вы проиграли";
+    [SerializeField] private float timeForMusicStart = 3f;
     [SerializeField] private float timeForWin = 5f;
     [SerializeField] private float timeForDefeat = 5f;
     [SerializeField] private Vector3 dragonStartPos = new(0, -10.9f, -17f);
@@ -27,11 +31,16 @@ public class Fight : MonoBehaviour
     [SerializeField] private DragonData[] dragonDatas;
     [SerializeField] private CharacterData[] characterDatas;
 
+    void Awake()
+    {
+        FightParamsManager.Instance.PrepareFight();
+    }
+
     void Start()
     {
         Instance = this;
 
-        textGUI.text = "";
+        fightInfoTextGUI = fightInfoGO.GetComponentInChildren<TextMeshProUGUI>();
 
         SetPlayer();
         SetDragon();
@@ -54,7 +63,7 @@ public class Fight : MonoBehaviour
     private IEnumerator PlayAudio()
     {
         AudioManager.Instance.Play("fight-start1");
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(timeForMusicStart);
 
         AudioManager.Instance.Play("fight-music");
     }
@@ -63,25 +72,56 @@ public class Fight : MonoBehaviour
     {
         //LoadDataToSave(... + 10);
         //YandexGame.NewLeaderboardScores("TopPlayersScore", YandexGame.savesData.playerScore);
-        textGUI.text = winText;
+        fightInfoGO.SetActive(true);
+        fightInfoTextGUI.text = winText;
         Player.Instance.HandlePlayerWin();
         AudioManager.Instance.Stop("fight-music");
         AudioManager.Instance.Play("player-win");
         yield return new WaitForSecondsRealtime(timeForWin);
 
-        SceneManager.LoadScene("Menu");
+        GiveRewardToPlayer(true);
+        SceneManager.LoadSceneAsync("Menu");
     }
 
     public IEnumerator PlayerDefeat()
     {
         //LoadDataToSave(... + 1);
         //YandexGame.NewLeaderboardScores("TopPlayersScore", YandexGame.savesData.playerScore);
-        textGUI.text = defeatText;
+        fightInfoGO.SetActive(true);
+        fightInfoTextGUI.text = defeatText;
         Dragon.Instance.HandlePlayerDefeat();
         AudioManager.Instance.Stop("fight-music");
         AudioManager.Instance.Play("player-lose1");
         yield return new WaitForSecondsRealtime(timeForDefeat);
 
-        SceneManager.LoadScene("Menu");
+        GiveRewardToPlayer(false);
+        SceneManager.LoadSceneAsync("Menu");
+    }
+
+    private void GiveRewardToPlayer(bool win)
+    {
+        if (win)
+        {
+            if (YandexGame.savesData.roadMapStep == RoadMapStep)
+            {
+                YandexGame.savesData.roadMapStep++;
+                YandexGame.savesData.totalScore += WinScoreReward;
+            }
+            else
+            {
+                YandexGame.savesData.totalScore += (int)(WinScoreReward * 0.75f);
+            }
+        }
+        else
+        {
+            if (YandexGame.savesData.roadMapStep == RoadMapStep)
+            {
+                YandexGame.savesData.totalScore += DefeatScoreReward;
+            }
+            else
+            {
+                YandexGame.savesData.totalScore += (int)(DefeatScoreReward * 0.75f);
+            }
+        }
     }
 }

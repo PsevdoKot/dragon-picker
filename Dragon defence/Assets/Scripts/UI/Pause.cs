@@ -2,13 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Pause : MonoBehaviour
 {
     private bool isPaused;
-    [SerializeField] public GameObject pauseBackground;
-    [SerializeField] public GameObject pauseText;
-    [SerializeField] public GameObject pauseButton;
+    private Button menuButton;
+    [SerializeField] public GameObject pauseBackgroundGO;
+    [SerializeField] public GameObject pauseTextGO;
+    [SerializeField] public GameObject menuButtonGO;
+
+    void Start()
+    {
+        menuButton = menuButtonGO.GetComponent<Button>();
+    }
+
+    void OnEnable()
+    {
+        menuButton.onClick.AddListener(LoadMenu);
+    }
+
+    void OnDisable()
+    {
+        menuButton.GetComponent<Button>().onClick.AddListener(LoadMenu);
+    }
 
     void Update()
     {
@@ -31,9 +48,9 @@ public class Pause : MonoBehaviour
 
     private void Toggle(bool state)
     {
-        pauseBackground.SetActive(state);
-        pauseText.SetActive(state);
-        pauseButton.SetActive(state);
+        pauseBackgroundGO.SetActive(state);
+        pauseTextGO.SetActive(state);
+        menuButtonGO.SetActive(state);
     }
 
     public void LoadMenu()

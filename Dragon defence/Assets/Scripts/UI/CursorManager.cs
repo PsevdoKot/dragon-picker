@@ -14,6 +14,7 @@ public class CursorManager : MonoBehaviour
     private Dictionary<CursorType, Texture2D> cursorByType;
 
     private int fireballTargetAreaMask;
+    [SerializeField] private bool isFight = false;
     [SerializeField] private CursorData[] cursorDatas;
 
     void Start()
@@ -35,6 +36,8 @@ public class CursorManager : MonoBehaviour
 
     void Update()
     {
+        if (!isFight) return;
+
         var targeting = TargetSelection.Instance;
         if (targeting.isOccupied && targeting.initiatorType == TotemType.Fire)
         {

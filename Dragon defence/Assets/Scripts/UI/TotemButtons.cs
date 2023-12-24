@@ -14,7 +14,7 @@ public class TotemButtons : MonoBehaviour
     [SerializeField] public int buttonsCount { get; private set; } = 6;
 
     private readonly Dictionary<int, float> xButtonPosByPlaceId = new()
-        { {0, 260}, {1, 160}, {2, 60}, {3, -40}, {4, -140}, {5, -240} };
+        { {0, 270}, {1, 165}, {2, 60}, {3, -50}, {4, -160}, {5, -270} };
 
     void Start()
     {

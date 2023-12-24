@@ -13,6 +13,7 @@ public class Dragon : MonoBehaviour
     public static float YSpeed { get; set; } = 6f;
     public static float AttackSpeed { get; set; } = 5f;
 
+    [SerializeField] public DragonType type { get { return __type; } }
     [SerializeField] public int HP { get; private set; }
 
     private Animator anim;
@@ -25,7 +26,7 @@ public class Dragon : MonoBehaviour
     private float attackTimer;
     private Color standartColor = new Color(1f, 1f, 1f);
     private Vector3 movementVector;
-    [SerializeField] private DragonType type;
+    [SerializeField] private DragonType __type;
     [SerializeField] private float timeToSleep = 4f;
     [SerializeField] private float timeToWakeUp = 3f;
     [SerializeField] private float maxLeftDistance = 18f;

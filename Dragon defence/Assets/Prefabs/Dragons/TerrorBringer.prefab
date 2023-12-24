@@ -932,18 +932,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragonFireballPrefab: {fileID: 1063882688649038698, guid: 825eb457afdf4314f8a508b57a4b0cb3, type: 3}
-  type: 2
-  slowDownBodyColor: {r: 1, g: 0.73, b: 0.35, a: 1}
+  __type: 2
   timeToSleep: 4
   timeToWakeUp: 3
-  speed: 4
-  xSpeed: 12
-  ySpeed: 6
   maxLeftDistance: 18
   maxRightDistance: -18
   maxTopDistance: -2
   maxBottomDistance: -12
-  timeBetweenAttacks: 5
+  slowDownBodyColor: {r: 1, g: 0.73, b: 0.35, a: 1}
   fireballStartPos: {x: 0, y: 7.5, z: 3}
   materials:
   - {fileID: 2100000, guid: dcc7344671ccf0044a1fb5038007860e, type: 2}

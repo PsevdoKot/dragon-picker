@@ -14,7 +14,8 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Image buttonImage;
     private TextMeshProUGUI buttonText;
 
-    private float initialAlpha;
+    private Color initialColor;
+    private Color hideColor;
     private string initialText;
     private int placeId;
 
@@ -29,7 +30,8 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         buttonImage = button.GetComponent<Image>();
         buttonText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
-        initialAlpha = buttonImage.color.a;
+        initialColor = buttonImage.color;
+        hideColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
         initialText = buttonText.text;
         button.onClick.AddListener(HandleButtonClick);
     }
@@ -53,7 +55,7 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             if (targeting.isOccupied && targeting.initiatorType == TotemType.Air)
             {
                 targeting.EndTargetSelection(totem.gameObject);
-                AudioManager.Instance.Play("totem-target-selection");
+                AudioManager.Instance.Play("totem-target-select");
             }
             else if (totem.isReady)
             {
@@ -65,21 +67,21 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void Hide()
     {
-        buttonImage.color = buttonImage.color.WithAlpha(0);
+        buttonImage.color = hideColor;
         buttonText.text = "";
     }
 
     public void Show()
     {
-        buttonImage.color = buttonImage.color.WithAlpha(initialAlpha);
+        buttonImage.color = initialColor;
         buttonText.text = initialText;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         var targeting = TargetSelection.Instance;
-        var isPlaceEmpty = TotemsRow.Totems[placeId].IsUnityNull();
-        if (isPlaceEmpty)
+        var totem = TotemsRow.Totems[placeId];
+        if (totem.IsUnityNull())
         {
             if (!targeting.isOccupied)
             {
@@ -89,6 +91,10 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         else if (targeting.isOccupied && targeting.initiatorType == TotemType.Air)
         {
             CursorManager.Instance.ChangeCursorType(CursorType.AirClick);
+        }
+        else if (totem.isReady)
+        {
+            CursorManager.Instance.ChangeCursorType(CursorType.StandartClick);
         }
     }
 

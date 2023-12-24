@@ -2,55 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using YG;
-using TMPro;
 
 public class Menu : MonoBehaviour
 {
-    private TextMeshProUGUI scoreText;
-
-    private void onEnable() => YandexGame.GetDataEvent += LoadDataFromSave;
-    private void onDisable() => YandexGame.GetDataEvent -= LoadDataFromSave;
+    [SerializeField] private GameObject loadingInfoGO;
+    [SerializeField] private GameObject mapMenuGO;
+    [SerializeField] private GameObject totemsMenuGO;
 
     void Start()
     {
+        AudioManager.Instance.Play("menu-music");
+    }
 
-        if (YandexGame.SDKEnabled)
+    public void ToggleMapMenu()
+    {
+        // CursorManager.Instance.ChangeCursorType(CursorType.Standart);
+        if (mapMenuGO.activeInHierarchy)
         {
-            LoadDataFromSave();
+            mapMenuGO.SetActive(false);
+        }
+        else
+        {
+            totemsMenuGO.SetActive(false);
+            mapMenuGO.SetActive(true);
         }
     }
 
-    void Update()
+    public void ToggleTotemsMenu()
     {
-
+        // CursorManager.Instance.ChangeCursorType(CursorType.Standart);
+        if (totemsMenuGO.activeInHierarchy)
+        {
+            totemsMenuGO.SetActive(false);
+        }
+        else
+        {
+            mapMenuGO.SetActive(false);
+            totemsMenuGO.SetActive(true);
+        }
     }
-
-    public void LoadDataFromSave()
-    {
-
-    }
-
-    public void LoadDataToSave(int score)
-    {
-        // YandexGame.savesData.totalScore = score;
-        // YandexGame.SaveProgress();
-    }
-
-    public void LoadFight()
-    {
-        AudioManager.Instance.Play("menu-click");
-        SceneManager.LoadSceneAsync("DragonFight");
-    }
-
-    // public void OpenInventory()
-    // {
-
-    // }
 
     public void LoadMainMenu()
     {
-        AudioManager.Instance.Play("menu-click");
+        CursorManager.Instance.ChangeCursorType(CursorType.Standart);
+        mapMenuGO.SetActive(false);
+        totemsMenuGO.SetActive(false);
+        loadingInfoGO.SetActive(true);
         SceneManager.LoadSceneAsync("MainMenu");
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.Instance.Stop("menu-music");
     }
 }

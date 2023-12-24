@@ -8,10 +8,11 @@ public class FightParamsManager : MonoBehaviour
 {
     public static FightParamsManager Instance;
 
+    private int selectedRoadMapStep;
     private FightParamsData fightParams;
-	[SerializeField] private bool setDafaultParams = false;
+    [SerializeField] private bool setDafaultParams = false;
 
-    public void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -22,38 +23,32 @@ public class FightParamsManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-		
-		if (setDafaultParams)
-		{
-			fightParams = new FightParamsData();
-		}
-    }
 
-    public void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "DragonFight" && fightParams != null)
+        if (setDafaultParams)
         {
-            PrepareFight();
+            fightParams = new FightParamsData();
         }
     }
 
-    public void SetFightParams(FightParamsData fightParams)
+    public void SetFightParams(int roadMapStep, FightParamsData fightParams)
     {
-		if (fightParams != null)
-		{
-			this.fightParams = fightParams;
-		}
+        if (fightParams != null)
+        {
+            this.fightParams = fightParams;
+            selectedRoadMapStep = roadMapStep;
+        }
     }
 
-    private void PrepareFight()
+    public void PrepareFight()
     {
-        PreparePlayer();
-        PrepareDragons();
-        PrepareWaterTotems();
-        PrepareFireTotems();
-        PrepareAirTotems();
-        PrepareEarthTotems();
-        PrepareFireballs();
+        if (fightParams != null)
+        {
+            Fight.RoadMapStep = selectedRoadMapStep;
+            Fight.WinScoreReward = fightParams.winScoreReward;
+            Fight.DefeatScoreReward = fightParams.defeatScoreReward;
+            PreparePlayer();
+            PrepareDragons();
+        }
     }
 
     private void PreparePlayer()
@@ -72,46 +67,7 @@ public class FightParamsManager : MonoBehaviour
         Dragon.XSpeed = fightParams.dragonXSpeed;
         Dragon.YSpeed = fightParams.dragonYSpeed;
         Dragon.AttackSpeed = fightParams.dragonAttackSpeed;
-    }
-
-    private void PrepareWaterTotems()
-    {
-        WaterTotem.ManaCost = fightParams.waterTotemManaCost;
-        WaterTotem.MaxHP = fightParams.waterTotemMaxHP;
-        WaterTotem.TimeBetweenActions = fightParams.waterTotemTimeBetweenActions;
-        WaterTotem.ManaRegenAmount = fightParams.waterTotemManaRegenAmount;
-    }
-
-    private void PrepareFireTotems()
-    {
-        FireTotem.ManaCost = fightParams.fireTotemManaCost;
-        FireTotem.MaxHP = fightParams.fireTotemMaxHP;
-        FireTotem.TimeBetweenActions = fightParams.fireTotemTimeBetweenActions;
-    }
-
-    private void PrepareAirTotems()
-    {
-        AirTotem.ManaCost = fightParams.airTotemManaCost;
-        AirTotem.MaxHP = fightParams.airTotemMaxHP;
-        AirTotem.TimeBetweenActions = fightParams.airTotemTimeBetweenActions;
-        AirTotem.ShieldDuration = fightParams.shieldDuration;
-        AirTotem.ActionShieldAmount = fightParams.shieldAmount;
-    }
-
-    private void PrepareEarthTotems()
-    {
-        EarthTotem.ManaCost = fightParams.earthTotemManaCost;
-        EarthTotem.MaxHP = fightParams.earthTotemMaxHP;
-        EarthTotem.TimeBetweenActions = fightParams.earthTotemTimeBetweenActions;
-        EarthTotem.SlowDownDuration = fightParams.slowDownDuration;
-        EarthTotem.SlowDownStrength = fightParams.slowDownStrength;
-    }
-
-    private void PrepareFireballs()
-    {
         Fireball.DragonFireballDamage = fightParams.dragonFireballDamage;
         Fireball.DragonFireballSpeed = fightParams.dragonFireballSpeed;
-        Fireball.TotemFireballDamage = fightParams.totemFireballDamage;
-        Fireball.TotemFireballSpeed = fightParams.totemFireballSpeed;
     }
 }

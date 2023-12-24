@@ -12,7 +12,7 @@ public class TotemsUI : MonoBehaviour
     private int totemsCount = 6;
 
     private readonly Dictionary<int, float> xTotemLocalPosByPlaceId = new()
-        { {0, -180}, {1, -276}, {2, -378}, {3, -476}, {4, -578}, {5, -678} };
+        { {0, 270}, {1, 165}, {2, 60}, {3, -50}, {4, -160}, {5, -270} };
 
     void Start()
     {

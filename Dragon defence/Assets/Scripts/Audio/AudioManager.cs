@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using Unity.VisualScripting;
 
 public class AudioManager : MonoBehaviour
 {
@@ -32,7 +33,8 @@ public class AudioManager : MonoBehaviour
             sound.source.outputAudioMixerGroup = sound.audioGroup switch
             {
                 AudioGroupType.Music => musicAudioGroup,
-                _ => sfxAudioGroup,
+                AudioGroupType.SFX => sfxAudioGroup,
+                _ => throw new Exception("The new audio group has not been processed"),
             };
             sound.source.clip = sound.clip;
             sound.source.volume = sound.volume;
@@ -44,18 +46,22 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void IsPlaying(string soundName)
+    public bool IsPlaying(string soundName)
     {
-        //soundFileByName[soundName].source.isPlaying;
+        return soundFileByName[soundName].source.isPlaying;
     }
 
     public void Play(string soundName)
     {
-        //soundFileByName[soundName].source.Play();
+        soundFileByName[soundName].source.Play();
     }
 
     public void Stop(string soundName)
     {
-        //soundFileByName[soundName].source.Stop();
+        var soundFile = soundFileByName[soundName];
+        if (!soundFile.IsUnityNull() && !soundFile.source.IsUnityNull())
+        {
+            soundFile.source.Stop();
+        }
     }
 }

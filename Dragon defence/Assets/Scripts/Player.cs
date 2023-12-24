@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     private Material material;
     private SkinnedMeshRenderer render;
 
-    private bool isMale;
     private Color standartColor = new Color(1f, 1f, 1f);
     [SerializeField] private Color withShieldBodyColor = new Color(0.41f, 0.97f, 0.81f);
 
@@ -118,7 +117,7 @@ public class Player : MonoBehaviour
         if (HP > 0)
         {
             anim.SetTrigger("hitted");
-            AudioManager.Instance.Play(isMale ? $"player-hitted{Random.Range(1, 3)}" : "f-player-hitted");
+            AudioManager.Instance.Play($"player-hitted{Random.Range(1, 3)}");
         }
         else
         {
@@ -130,7 +129,7 @@ public class Player : MonoBehaviour
     {
         isActive = false;
         anim.SetTrigger("dying");
-        AudioManager.Instance.Play(isMale ? $"player-dying{Random.Range(1, 3)}" : "f-player-dying");
+        AudioManager.Instance.Play($"player-dying{Random.Range(1, 3)}");
         StartCoroutine(Fight.Instance.PlayerDefeat());
     }
 

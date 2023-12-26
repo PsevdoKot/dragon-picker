@@ -11,11 +11,13 @@ public class PlayerBars : MonoBehaviour
     [SerializeField] private Image health;
     [SerializeField] private Image shield;
     [SerializeField] private TextMeshProUGUI manaAmountTextGUI;
+    [SerializeField] private TextMeshProUGUI HPAmountTextGUI;
 
     void Update()
     {
         player = Player.Instance;
         manaAmountTextGUI.text = $"{(int)player.mana}/{Player.MaxMana}";
+        HPAmountTextGUI.text = $"{player.HP}/{Player.MaxHP}";
         mana.fillAmount = player.mana / Player.MaxMana;
         health.fillAmount = (float)player.HP / Player.MaxHP;
         shield.fillAmount = player.maxShield > 0 ? (float)player.shield / player.maxShield : 0;

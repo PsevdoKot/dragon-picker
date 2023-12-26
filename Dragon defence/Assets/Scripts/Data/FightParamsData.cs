@@ -24,6 +24,7 @@ public class FightParamsData
     public float dragonYSpeed = 6f;
     public float dragonAttackSpeed = 5f;
 
-    public int dragonFireballDamage = 20;
+    public int dragonFireballMinDamage = 15;
+    public int dragonFireballMaxDamage = 25;
     public float dragonFireballSpeed = 0.5f;
 }

@@ -23,11 +23,7 @@ public class CheckYGConnect : MonoBehaviour
 
     private void CheckSDK()
     {
-        if (YandexGame.auth)
-        {
-
-        }
-        else
+        if (!YandexGame.auth)
         {
             YandexGame.AuthDialog();
         }

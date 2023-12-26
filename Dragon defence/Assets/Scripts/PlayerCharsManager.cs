@@ -30,16 +30,10 @@ public class PlayerCharsManager : MonoBehaviour
         CalculatePlayerCharsWithUpgrades();
     }
 
-    public void Start()
+    public void SetPlayerCharacteristics()
     {
-        if (SceneManager.GetActiveScene().name == "DragonFight" && playerChars != null)
-        {
-            SetCharacteristics();
-        }
-    }
+        if (playerChars == null) return;
 
-    private void SetCharacteristics()
-    {
         PrepareWaterTotems();
         PrepareFireTotems();
         PrepareAirTotems();
@@ -59,7 +53,8 @@ public class PlayerCharsManager : MonoBehaviour
         FireTotem.ManaCost = playerChars.fireTotemManaCost;
         FireTotem.MaxHP = playerChars.fireTotemMaxHP;
         FireTotem.TimeBetweenActions = playerChars.fireTotemTimeBetweenActions;
-        Fireball.TotemFireballDamage = playerChars.totemFireballDamage;
+        Fireball.TotemFireballMinDamage = playerChars.totemFireballDamage;
+        Fireball.TotemFireballMaxDamage = playerChars.totemFireballDamage;
         Fireball.TotemFireballSpeed = playerChars.totemFireballSpeed;
     }
 
@@ -84,29 +79,29 @@ public class PlayerCharsManager : MonoBehaviour
 
 
 
-    private void CalculatePlayerCharsWithUpgrades()
-    {
-        foreach (var totemUpgradesData in totemsUpgradesData)
-        {
-            foreach (var upgradeData in totemUpgradesData.charUpgradesData)
-            {
-                var currentUpgrade = GetCurrentUpgrade(totemUpgradesData.totemType, upgradeData.upgradeType);
-                for (var i = 0; i < upgradeData.maxUpgradesCount; i++)
-                {
-                    if (i > currentUpgrade) break;
-                    ChangePlayerCrarValue(totemUpgradesData.totemType, upgradeData.upgradeType,
-                        upgradeData.upgradesData[i].upgradeAmount);
-                }
-            }
-        }
-    }
-
 #nullable enable
     public (float, float?, int?) GetTotalCharData(TotemType totemType, UpgradeType upgradeType)
     {
         var currentUpgradeData = GetNextUpgradeData(totemType, upgradeType);
         var charValue = GetPlayerCharValue(totemType, upgradeType);
         return (charValue, currentUpgradeData?.upgradeAmount, currentUpgradeData?.price);
+    }
+
+    private void CalculatePlayerCharsWithUpgrades()
+    {
+        foreach (var totemUpgradesData in totemsUpgradesData)
+        {
+            foreach (var charUpgradesData in totemUpgradesData.charUpgradesData)
+            {
+                var currentUpgrade = GetCurrentUpgrade(totemUpgradesData.totemType, charUpgradesData.upgradeType);
+                for (var i = 0; i < charUpgradesData.maxUpgradesCount; i++)
+                {
+                    if (i > currentUpgrade) break;
+                    ChangePlayerCrarValue(totemUpgradesData.totemType, charUpgradesData.upgradeType,
+                        charUpgradesData.upgradesData[i].upgradeAmount);
+                }
+            }
+        }
     }
 
     // возвращает null, в случае если апргейдов больше нет
@@ -117,7 +112,7 @@ public class PlayerCharsManager : MonoBehaviour
             .First(totemUpgradesData => totemUpgradesData.totemType == totemType)
             .charUpgradesData
             .First(charUpgradeData => charUpgradeData.upgradeType == upgradeType);
-        return currentUpgrade == charUpgradesData.maxUpgradesCount
+        return currentUpgrade + 1 == charUpgradesData.maxUpgradesCount
             ? null
             : charUpgradesData.upgradesData[currentUpgrade + 1];
     }
@@ -171,6 +166,7 @@ public class PlayerCharsManager : MonoBehaviour
         if (nextUpgradeData == null) return;
 
         ChangePlayerCrarValue(totemType, upgradeType, nextUpgradeData.upgradeAmount);
+        PlayerScoreManager.Instance.ChangePlayerScore(-nextUpgradeData.price);
 
         switch (totemType)
         {
@@ -252,6 +248,8 @@ public class PlayerCharsManager : MonoBehaviour
                 }
                 break;
         }
+
+        YandexGame.SaveProgress();
     }
 
     private float GetPlayerCharValue(TotemType totemType, UpgradeType upgradeType)
@@ -362,19 +360,19 @@ public class PlayerCharsManager : MonoBehaviour
                 switch (upgradeType)
                 {
                     case UpgradeType.earthTotemManaCost:
-                        YandexGame.savesData.earthTotemManaCostUpgrade++;
+                        playerChars.earthTotemManaCost += (int)changeValue;
                         break;
                     case UpgradeType.earthTotemMaxHP:
-                        YandexGame.savesData.earthTotemMaxHPUpgrade++;
+                        playerChars.earthTotemMaxHP += (int)changeValue;
                         break;
                     case UpgradeType.earthTotemTimeBetweenActions:
-                        YandexGame.savesData.earthTotemTimeBetweenActionsUpgrade++;
+                        playerChars.earthTotemTimeBetweenActions += changeValue;
                         break;
                     case UpgradeType.slowDownDuration:
-                        YandexGame.savesData.slowDownDurationUpgrade++;
+                        playerChars.slowDownDuration += changeValue;
                         break;
                     case UpgradeType.slowDownStrength:
-                        YandexGame.savesData.slowDownStrengthUpgrade++;
+                        playerChars.slowDownStrength += changeValue;
                         break;
                 }
                 break;

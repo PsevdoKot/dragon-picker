@@ -46,6 +46,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void CloseSettings()
     {
+        YandexGame.SaveProgress();
         CursorManager.Instance.ChangeCursorType(CursorType.Standart);
         gameObject.SetActive(false);
         mainMenuGO.SetActive(true);

@@ -96,6 +96,12 @@ public class Player : MonoBehaviour
         AudioManager.Instance.Play("player-totem-placement");
     }
 
+    public void IncreaseHP(int amount)
+    {
+        HP += amount;
+        Mathf.Clamp(HP, 0, MaxHP);
+    }
+
     public void TakeDamage(int damageAmount)
     {
         if (shield > 0)

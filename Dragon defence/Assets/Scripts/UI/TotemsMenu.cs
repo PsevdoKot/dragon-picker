@@ -29,6 +29,8 @@ public class TotemsMenu : MonoBehaviour
     {
         if (type == currentTabType) return;
 
+        CursorManager.Instance.ChangeCursorType(CursorType.Standart);
+        
         var currentTabData = tabDatas.First(tabData => tabData.type == currentTabType);
         currentTabData.totemTabGO.SetActive(false);
         currentTabData.button.enabled = true;

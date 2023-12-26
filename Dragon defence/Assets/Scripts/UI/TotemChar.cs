@@ -7,16 +7,22 @@ using YG;
 
 public class TotemChar : MonoBehaviour
 {
+    private TextMeshProUGUI upgradeButtonTextGUI;
+    private Image upgradeButtonImage;
     [SerializeField] private TextMeshProUGUI charAmountTextGUI;
     [SerializeField] private TextMeshProUGUI upgradeAmountTextGUI;
     [SerializeField] private TextMeshProUGUI upgradePriceTextGUI;
     [SerializeField] private Button upgradeButton;
 
+    private Color standartColor = new Color(1f, 1f, 1f);
+    private Color disabledColor = new Color(0.7f, 0.7f, 0.7f, 0.7f);
     [SerializeField] private TotemType totemType;
     [SerializeField] private UpgradeType upgradeType;
 
     void Start()
     {
+        upgradeButtonTextGUI = upgradeButton.GetComponentInChildren<TextMeshProUGUI>();
+        upgradeButtonImage = upgradeButton.GetComponentInChildren<Image>();
         UpdateCharInfo();
     }
 
@@ -40,15 +46,22 @@ public class TotemChar : MonoBehaviour
         {
             upgradeAmountTextGUI.text = "";
             upgradePriceTextGUI.text = "";
+            upgradeButtonTextGUI.text = "X";
+
             upgradeButton.enabled = false;
-            upgradeButton.GetComponent<TextMeshProUGUI>().text = "✓"; // или "✔"
+            upgradeButtonImage.color = disabledColor;
+
+            CursorManager.Instance.ChangeCursorType(CursorType.Standart);
         }
         else
         {
             var upgradeAmount = (float)totalCharData.Item2;
-            upgradeAmountTextGUI.text = $"{Mathf.Sign(upgradeAmount)}{Mathf.Abs(upgradeAmount)}";
+            upgradeAmountTextGUI.text = $"{(upgradeAmount > 0 ? '+' : '-')}{Mathf.Abs(upgradeAmount)}";
             upgradePriceTextGUI.text = totalCharData.Item3.ToString();
-            upgradeButton.enabled = totalCharData.Item3 <= YandexGame.savesData.totalScore;
+
+            var enabled = totalCharData.Item3 <= PlayerScoreManager.Instance.GetPlayerScore();
+            upgradeButton.enabled = enabled;
+            upgradeButtonImage.color = enabled ? standartColor : disabledColor;
         }
     }
 
@@ -56,5 +69,6 @@ public class TotemChar : MonoBehaviour
     {
         PlayerCharsManager.Instance.UpgradeChar(totemType, upgradeType);
         UpdateCharInfo();
+        PlayerInfo.Instance.UpdateScoreAmount();
     }
 }

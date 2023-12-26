@@ -11,12 +11,11 @@ public class Menu : MonoBehaviour
 
     void Start()
     {
-        AudioManager.Instance.Play("menu-music");
+        AudioManager.Instance.Play("main-menu-music");
     }
 
     public void ToggleMapMenu()
     {
-        // CursorManager.Instance.ChangeCursorType(CursorType.Standart);
         if (mapMenuGO.activeInHierarchy)
         {
             mapMenuGO.SetActive(false);
@@ -30,7 +29,6 @@ public class Menu : MonoBehaviour
 
     public void ToggleTotemsMenu()
     {
-        // CursorManager.Instance.ChangeCursorType(CursorType.Standart);
         if (totemsMenuGO.activeInHierarchy)
         {
             totemsMenuGO.SetActive(false);
@@ -53,6 +51,6 @@ public class Menu : MonoBehaviour
 
     void OnDestroy()
     {
-        AudioManager.Instance.Stop("menu-music");
+        AudioManager.Instance.Stop("main-menu-music");
     }
 }

@@ -18,6 +18,7 @@ public class Fight : MonoBehaviour
 
     private TextMeshProUGUI fightInfoTextGUI;
     [SerializeField] private GameObject fightInfoGO;
+    [SerializeField] private GameObject loadingPanelGO;
 
     [SerializeField] private string winText = "Вы победили";
     [SerializeField] private string defeatText = "Вы проиграли";
@@ -34,6 +35,7 @@ public class Fight : MonoBehaviour
     void Awake()
     {
         FightParamsManager.Instance.PrepareFight();
+        PlayerCharsManager.Instance.SetPlayerCharacteristics();
     }
 
     void Start()
@@ -80,6 +82,7 @@ public class Fight : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeForWin);
 
         GiveRewardToPlayer(true);
+        loadingPanelGO.SetActive(true);
         SceneManager.LoadSceneAsync("Menu");
     }
 
@@ -95,6 +98,7 @@ public class Fight : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeForDefeat);
 
         GiveRewardToPlayer(false);
+        loadingPanelGO.SetActive(true);
         SceneManager.LoadSceneAsync("Menu");
     }
 
@@ -104,23 +108,23 @@ public class Fight : MonoBehaviour
         {
             if (YandexGame.savesData.roadMapStep == RoadMapStep)
             {
-                YandexGame.savesData.roadMapStep++;
-                YandexGame.savesData.totalScore += WinScoreReward;
+                YandexGame.savesData.roadMapStep++; // сохранение будет в методе ниже
+                PlayerScoreManager.Instance.ChangePlayerScore(WinScoreReward);
             }
             else
             {
-                YandexGame.savesData.totalScore += (int)(WinScoreReward * 0.75f);
+                PlayerScoreManager.Instance.ChangePlayerScore((int)(WinScoreReward * 0.7f));
             }
         }
         else
         {
             if (YandexGame.savesData.roadMapStep == RoadMapStep)
             {
-                YandexGame.savesData.totalScore += DefeatScoreReward;
+                PlayerScoreManager.Instance.ChangePlayerScore(DefeatScoreReward);
             }
             else
             {
-                YandexGame.savesData.totalScore += (int)(DefeatScoreReward * 0.75f);
+                PlayerScoreManager.Instance.ChangePlayerScore((int)(DefeatScoreReward * 0.7f));
             }
         }
     }

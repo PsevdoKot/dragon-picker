@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
-    public static int DragonFireballDamage { get; set; } = 20;
+    public static int DragonFireballMinDamage { get; set; } = 15;
+    public static int DragonFireballMaxDamage { get; set; } = 25;
     public static float DragonFireballSpeed { get; set; } = 0.5f;
-    public static int TotemFireballDamage { get; set; } = 15;
+    public static int TotemFireballMinDamage { get; set; } = 15;
+    public static int TotemFireballMaxDamage { get; set; } = 15;
     public static float TotemFireballSpeed { get; set; } = 0.5f;
 
     [SerializeField] private GameObject fireEffectGO;
@@ -16,7 +18,8 @@ public class Fireball : MonoBehaviour
     private bool isActive = true;
     private bool isTargetMissed = false;
     private float speed;
-    private int damageAmount;
+    private int minDamage;
+    private int maxDamage;
     private Vector3 targetPos;
     private Vector3 direction;
     [SerializeField] private FireballType type;
@@ -43,10 +46,10 @@ public class Fireball : MonoBehaviour
 
     private void SetParamsDependingOnType()
     {
-        (speed, damageAmount) = type switch
+        (speed, minDamage, maxDamage) = type switch
         {
-            FireballType.Dragon => (DragonFireballSpeed, DragonFireballDamage),
-            FireballType.Totem => (TotemFireballSpeed, TotemFireballDamage),
+            FireballType.Dragon => (DragonFireballSpeed, DragonFireballMinDamage, DragonFireballMaxDamage),
+            FireballType.Totem => (TotemFireballSpeed, TotemFireballMinDamage, TotemFireballMaxDamage),
             _ => throw new System.Exception("The new fireball type has not been processed"),
         };
     }
@@ -61,15 +64,15 @@ public class Fireball : MonoBehaviour
                 var coll = colliders[0];
                 if (coll.CompareTag("Totem"))
                 {
-                    coll.gameObject.GetComponent<Totem>().TakeDamage(damageAmount);
+                    coll.gameObject.GetComponent<Totem>().TakeDamage(CalculateRandomDamage());
                 }
                 else if (coll.CompareTag("Dragon"))
                 {
-                    Dragon.Instance.TakeDamage(damageAmount);
+                    Dragon.Instance.TakeDamage(CalculateRandomDamage());
                 }
                 else if (coll.CompareTag("Player"))
                 {
-                    Player.Instance.TakeDamage(damageAmount);
+                    Player.Instance.TakeDamage(CalculateRandomDamage());
                 }
 
                 StartCoroutine(Explode());
@@ -101,6 +104,11 @@ public class Fireball : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private int CalculateRandomDamage()
+    {
+        return Random.Range(minDamage, maxDamage + 1);
     }
 
     private IEnumerator Explode()

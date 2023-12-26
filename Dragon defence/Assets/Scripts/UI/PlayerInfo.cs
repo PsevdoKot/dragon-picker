@@ -6,31 +6,29 @@ using YG;
 
 public class PlayerInfo : MonoBehaviour
 {
+    public static PlayerInfo Instance;
+
     [SerializeField] private TextMeshProUGUI playerNameTextGUI;
     [SerializeField] private TextMeshProUGUI scoreTextGUI;
 
-    // private void onEnable() => YandexGame.GetDataEvent += LoadDataFromSave;
-    // private void onDisable() => YandexGame.GetDataEvent -= LoadDataFromSave;
+    private void onEnable() => YandexGame.GetDataEvent += LoadDataFromSave;
+    private void onDisable() => YandexGame.GetDataEvent -= LoadDataFromSave;
 
-    void Start()
+    void Awake()
     {
-        // playerNameTextGUI.text = YandexGame.playerName;
-        scoreTextGUI.text = YandexGame.savesData.totalScore.ToString();
-
-        // if (YandexGame.SDKEnabled)
-        // {
-        //     LoadDataFromSave();
-        // }
+        Instance = this;
     }
 
-    public void LoadDataFromSave()
+    private void LoadDataFromSave()
     {
-
+        Debug.Log(scoreTextGUI);
+        Debug.Log(PlayerScoreManager.Instance);
+        scoreTextGUI.text = PlayerScoreManager.Instance.GetPlayerScore().ToString();
+        playerNameTextGUI.text = YandexGame.playerName;
     }
 
-    public void LoadDataToSave(int score)
+    public void UpdateScoreAmount()
     {
-        // YandexGame.savesData.totalScore = score;
-        // YandexGame.SaveProgress();
+        scoreTextGUI.text = PlayerScoreManager.Instance.GetPlayerScore().ToString();
     }
 }

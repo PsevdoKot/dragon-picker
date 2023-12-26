@@ -1414,6 +1414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 0
 --- !u!1001 &343823897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1664,8 +1665,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 1
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3142,7 +3143,7 @@ MonoBehaviour:
   m_text: "\u0412 \u043F\u0443\u0442\u044C!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
-  m_sharedMaterial: {fileID: -4939176869350589210, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
+  m_sharedMaterial: {fileID: -5103796312051342172, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3517,6 +3518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 0
 --- !u!1001 &1104446871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4085,6 +4087,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa28cc18a4674c4faed16df10552dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNameTextGUI: {fileID: 0}
+  scoreTextGUI: {fileID: 0}
 --- !u!1 &1385571444
 GameObject:
   m_ObjectHideFlags: 0
@@ -4247,6 +4251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 1
 --- !u!1001 &1412347722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4649,6 +4654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 1
 --- !u!1 &1547167916
 GameObject:
   m_ObjectHideFlags: 0
@@ -5078,7 +5084,7 @@ MonoBehaviour:
   m_text: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
-  m_sharedMaterial: {fileID: -4939176869350589210, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
+  m_sharedMaterial: {fileID: -5103796312051342172, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5472,7 +5478,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2211564899198745196, guid: caf9732433f4dc044845763962493607, type: 3}
       propertyPath: singleton
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2211564899198745197, guid: caf9732433f4dc044845763962493607, type: 3}
       propertyPath: m_Name
@@ -5669,6 +5675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 1
 --- !u!1 &1731305761
 GameObject:
   m_ObjectHideFlags: 0
@@ -5965,6 +5972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 1
 --- !u!1001 &1765877821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6279,7 +6287,7 @@ MonoBehaviour:
   m_text: Dragon Defence
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
-  m_sharedMaterial: {fileID: -4939176869350589210, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
+  m_sharedMaterial: {fileID: -5103796312051342172, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7363,6 +7371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a168a5f2a4c0cf44a95fa9502f3b5465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isButton: 0
 --- !u!1 &2108605860
 GameObject:
   m_ObjectHideFlags: 0
@@ -7459,7 +7468,7 @@ MonoBehaviour:
   m_text: "\u0412\u044B\u0445\u043E\u0434"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
-  m_sharedMaterial: {fileID: -4939176869350589210, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
+  m_sharedMaterial: {fileID: -5103796312051342172, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

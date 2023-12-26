@@ -11,8 +11,9 @@ public class Pause : MonoBehaviour
     [SerializeField] public GameObject pauseBackgroundGO;
     [SerializeField] public GameObject pauseTextGO;
     [SerializeField] public GameObject menuButtonGO;
+    [SerializeField] private GameObject loadingPanelGO;
 
-    void Start()
+    void Awake()
     {
         menuButton = menuButtonGO.GetComponent<Button>();
     }
@@ -55,7 +56,9 @@ public class Pause : MonoBehaviour
 
     public void LoadMenu()
     {
+        AudioManager.Instance.Stop("fight-music");
         AudioManager.Instance.Play("menu-click");
+        loadingPanelGO.SetActive(true);
         SceneManager.LoadSceneAsync("Menu");
     }
 }

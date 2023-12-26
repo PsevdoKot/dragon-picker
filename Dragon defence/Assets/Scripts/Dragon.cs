@@ -66,7 +66,6 @@ public class Dragon : MonoBehaviour
             attackTimer -= Time.deltaTime;
         }
 
-        if (type == DragonType.Nightmare && isAttacking) return;
         Move();
     }
 
@@ -93,7 +92,6 @@ public class Dragon : MonoBehaviour
     private void Move()
     {
         movementVector = RandomMovementVector();
-        if (type == DragonType.Nightmare) movementVector.y = 0;
         transform.position = transform.position + (movementVector * Speed * Time.deltaTime);
 
         RestrictMovementInArea();

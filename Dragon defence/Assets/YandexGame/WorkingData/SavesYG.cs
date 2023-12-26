@@ -13,7 +13,7 @@ namespace YG
         //// Ваши сохранения ////
 
         // Данные для статистики игрока
-        public int totalScore = 0; // = money
+        public int totalScore = 10; // = money
 
         // Данные по настройкам
         public CharacterType playerCharacterType = CharacterType.Male; // про это можно забыть, но код оставить

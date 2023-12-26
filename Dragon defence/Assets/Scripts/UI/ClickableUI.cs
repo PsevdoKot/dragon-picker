@@ -6,15 +6,19 @@ using UnityEngine.UI;
 public class ClickableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Button button;
+    [SerializeField] private bool isButton = true;
 
     void Awake()
     {
-        button = GetComponent<Button>();
+        if (isButton)
+        {
+            button = GetComponent<Button>();
+        }
     }
 
     void OnEnable()
     {
-        if (!button.IsUnityNull())
+        if (button != null)
         {
             button.onClick.AddListener(() => AudioManager.Instance.Play("menu-click"));
         }
@@ -22,7 +26,7 @@ public class ClickableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void OnDisable()
     {
-        if (!button.IsUnityNull())
+        if (button != null)
         {
             button.onClick.RemoveAllListeners();
         }
@@ -30,14 +34,14 @@ public class ClickableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!button.enabled) return;
+        if (isButton && !button.enabled) return;
 
         CursorManager.Instance.ChangeCursorType(CursorType.StandartClick);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!button.enabled) return;
+        if (isButton && !button.enabled) return;
 
         CursorManager.Instance.ChangeCursorType(CursorType.Standart);
     }

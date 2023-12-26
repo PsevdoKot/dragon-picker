@@ -32,23 +32,21 @@ public class FightParamsManager : MonoBehaviour
 
     public void SetFightParams(int roadMapStep, FightParamsData fightParams)
     {
-        if (fightParams != null)
-        {
-            this.fightParams = fightParams;
-            selectedRoadMapStep = roadMapStep;
-        }
+        if (fightParams == null) return;
+
+        this.fightParams = fightParams;
+        selectedRoadMapStep = roadMapStep;
     }
 
     public void PrepareFight()
     {
-        if (fightParams != null)
-        {
-            Fight.RoadMapStep = selectedRoadMapStep;
-            Fight.WinScoreReward = fightParams.winScoreReward;
-            Fight.DefeatScoreReward = fightParams.defeatScoreReward;
-            PreparePlayer();
-            PrepareDragons();
-        }
+        if (fightParams == null) return;
+
+        Fight.RoadMapStep = selectedRoadMapStep;
+        Fight.WinScoreReward = fightParams.winScoreReward;
+        Fight.DefeatScoreReward = fightParams.defeatScoreReward;
+        PreparePlayer();
+        PrepareDragons();
     }
 
     private void PreparePlayer()
@@ -67,7 +65,8 @@ public class FightParamsManager : MonoBehaviour
         Dragon.XSpeed = fightParams.dragonXSpeed;
         Dragon.YSpeed = fightParams.dragonYSpeed;
         Dragon.AttackSpeed = fightParams.dragonAttackSpeed;
-        Fireball.DragonFireballDamage = fightParams.dragonFireballDamage;
+        Fireball.DragonFireballMinDamage = fightParams.dragonFireballMinDamage;
+        Fireball.DragonFireballMaxDamage = fightParams.dragonFireballMaxDamage;
         Fireball.DragonFireballSpeed = fightParams.dragonFireballSpeed;
     }
 }

@@ -5,25 +5,25 @@ public class PlayerCharacteristics
     // Полям присваиваются начальные значения, до апргейдов
 
     public int waterTotemManaCost = 30;
-    public int waterTotemMaxHP = 30;
+    public int waterTotemMaxHP = 20;
     public float waterTotemTimeBetweenActions = 7f;
-    public float waterTotemManaRegenAmount = 10;
+    public float waterTotemManaRegenAmount = 10f;
 
     public int fireTotemManaCost = 40;
-    public int fireTotemMaxHP = 30;
+    public int fireTotemMaxHP = 15;
     public float fireTotemTimeBetweenActions = 5f;
     public int totemFireballDamage = 15;
     public float totemFireballSpeed = 0.5f;
 
     public int airTotemManaCost = 20;
-    public int airTotemMaxHP = 30;
+    public int airTotemMaxHP = 25;
     public float airTotemTimeBetweenActions = 10f;
-    public float shieldDuration = 15f;
-    public int shieldAmount = 60;
+    public float shieldDuration = 12f;
+    public int shieldAmount = 20;
 
     public int earthTotemManaCost = 20;
-    public int earthTotemMaxHP = 30;
+    public int earthTotemMaxHP = 20;
     public float earthTotemTimeBetweenActions = 20;
-    public float slowDownDuration = 10;
-    public float slowDownStrength = 2.5f;
+    public float slowDownDuration = 7f;
+    public float slowDownStrength = 1.5f;
 }

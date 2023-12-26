@@ -44,3 +44,226 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafd0a1c754496a48a1c2afabe79f200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totemsUpgradesData:
+  - totemType: 0
+    charUpgradesData:
+    - upgradeType: 0
+      upgradesData:
+      - upgradeAmount: -2
+        price: 4
+      - upgradeAmount: -2
+        price: 6
+      - upgradeAmount: -2
+        price: 8
+      - upgradeAmount: -2
+        price: 11
+      - upgradeAmount: -2
+        price: 14
+    - upgradeType: 1
+      upgradesData:
+      - upgradeAmount: 2
+        price: 4
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 8
+      - upgradeAmount: 2
+        price: 11
+      - upgradeAmount: 2
+        price: 14
+    - upgradeType: 2
+      upgradesData:
+      - upgradeAmount: -0.5
+        price: 4
+      - upgradeAmount: -0.5
+        price: 6
+      - upgradeAmount: -0.5
+        price: 8
+      - upgradeAmount: -0.5
+        price: 11
+    - upgradeType: 3
+      upgradesData:
+      - upgradeAmount: 3
+        price: 4
+      - upgradeAmount: 3
+        price: 6
+      - upgradeAmount: 3
+        price: 8
+      - upgradeAmount: 3
+        price: 11
+      - upgradeAmount: 3
+        price: 14
+  - totemType: 1
+    charUpgradesData:
+    - upgradeType: 4
+      upgradesData:
+      - upgradeAmount: -3
+        price: 4
+      - upgradeAmount: -3
+        price: 6
+      - upgradeAmount: -3
+        price: 8
+      - upgradeAmount: -3
+        price: 11
+      - upgradeAmount: -3
+        price: 14
+    - upgradeType: 5
+      upgradesData:
+      - upgradeAmount: 2
+        price: 4
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 8
+      - upgradeAmount: 2
+        price: 11
+      - upgradeAmount: 2
+        price: 14
+    - upgradeType: 6
+      upgradesData:
+      - upgradeAmount: -0.5
+        price: 6
+      - upgradeAmount: -0.5
+        price: 10
+      - upgradeAmount: -0.5
+        price: 14
+      - upgradeAmount: -0.5
+        price: 20
+    - upgradeType: 7
+      upgradesData:
+      - upgradeAmount: 2
+        price: 4
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 8
+      - upgradeAmount: 2
+        price: 11
+      - upgradeAmount: 2
+        price: 14
+    - upgradeType: 8
+      upgradesData:
+      - upgradeAmount: 0.1
+        price: 6
+      - upgradeAmount: 0.1
+        price: 8
+      - upgradeAmount: 0.1
+        price: 11
+      - upgradeAmount: 0.1
+        price: 13
+      - upgradeAmount: 0.1
+        price: 17
+  - totemType: 2
+    charUpgradesData:
+    - upgradeType: 9
+      upgradesData:
+      - upgradeAmount: -2
+        price: 4
+      - upgradeAmount: -2
+        price: 6
+      - upgradeAmount: -2
+        price: 8
+      - upgradeAmount: -2
+        price: 11
+      - upgradeAmount: -2
+        price: 14
+    - upgradeType: 10
+      upgradesData:
+      - upgradeAmount: 2
+        price: 4
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 8
+      - upgradeAmount: 2
+        price: 11
+      - upgradeAmount: 2
+        price: 14
+    - upgradeType: 11
+      upgradesData:
+      - upgradeAmount: -0.5
+        price: 6
+      - upgradeAmount: -0.5
+        price: 10
+      - upgradeAmount: -1
+        price: 18
+      - upgradeAmount: -1
+        price: 30
+    - upgradeType: 12
+      upgradesData:
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 8
+      - upgradeAmount: 2
+        price: 11
+      - upgradeAmount: 2
+        price: 14
+    - upgradeType: 13
+      upgradesData:
+      - upgradeAmount: 10
+        price: 4
+      - upgradeAmount: 10
+        price: 8
+      - upgradeAmount: 10
+        price: 14
+      - upgradeAmount: 10
+        price: 20
+  - totemType: 3
+    charUpgradesData:
+    - upgradeType: 14
+      upgradesData:
+      - upgradeAmount: -1
+        price: 4
+      - upgradeAmount: -1
+        price: 6
+      - upgradeAmount: -2
+        price: 8
+      - upgradeAmount: -2
+        price: 11
+      - upgradeAmount: -2
+        price: 14
+    - upgradeType: 15
+      upgradesData:
+      - upgradeAmount: 2
+        price: 4
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 8
+      - upgradeAmount: 2
+        price: 11
+      - upgradeAmount: 2
+        price: 14
+    - upgradeType: 16
+      upgradesData:
+      - upgradeAmount: -1
+        price: 5
+      - upgradeAmount: -1
+        price: 10
+      - upgradeAmount: -1
+        price: 15
+      - upgradeAmount: -1
+        price: 25
+      - upgradeAmount: -1
+        price: 35
+    - upgradeType: 17
+      upgradesData:
+      - upgradeAmount: 2
+        price: 6
+      - upgradeAmount: 2
+        price: 10
+      - upgradeAmount: 2
+        price: 14
+      - upgradeAmount: 2
+        price: 20
+    - upgradeType: 18
+      upgradesData:
+      - upgradeAmount: 0.5
+        price: 4
+      - upgradeAmount: 0.5
+        price: 8
+      - upgradeAmount: 0.5
+        price: 12
+      - upgradeAmount: 1
+        price: 18

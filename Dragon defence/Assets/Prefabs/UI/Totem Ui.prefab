@@ -218,7 +218,7 @@ MonoBehaviour:
   m_text: "10\u0441"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
-  m_sharedMaterial: {fileID: -4939176869350589210, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
+  m_sharedMaterial: {fileID: -5103796312051342172, guid: af0f359b971e03c44b81a5009e70a6cf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

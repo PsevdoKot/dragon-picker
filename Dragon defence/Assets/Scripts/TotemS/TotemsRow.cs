@@ -9,6 +9,9 @@ public class TotemsRow : MonoBehaviour
     public static Totem[] Totems { get; private set; }
     public static TotemsRow Instance { get; private set; }
 
+    public readonly Dictionary<int, float> xTotemLocalPosByPlaceId = new()
+        { {0, 0}, {1, 0.85f}, {2, 1.75f}, {3, 2.65f}, {4, 3.6f}, {5, 4.55f} };
+
     [SerializeField] private GameObject waterTotemPrefab;
     [SerializeField] private GameObject fireTotemPrefab;
     [SerializeField] private GameObject airTotemPrefab;
@@ -16,8 +19,6 @@ public class TotemsRow : MonoBehaviour
 
     public int totemsCount = 6;
     [SerializeField] public float timeToTotemAppear { get; private set; } = 2f;
-    private readonly Dictionary<int, float> xTotemLocalPosByPlaceId = new()
-        { {0, 0}, {1, 0.85f}, {2, 1.75f}, {3, 2.65f}, {4, 3.6f}, {5, 4.55f} };
 
     void Start()
     {

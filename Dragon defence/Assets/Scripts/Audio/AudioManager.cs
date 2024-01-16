@@ -4,13 +4,16 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using Unity.VisualScripting;
+using YG;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    private float initialVolume = 0;
     private Dictionary<string, SoundFile> soundFileByName;
     [SerializeField] private SoundFile[] soundFiles;
+    // [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioMixerGroup sfxAudioGroup;
     [SerializeField] private AudioMixerGroup musicAudioGroup;
 
@@ -45,6 +48,47 @@ public class AudioManager : MonoBehaviour
             soundFileByName.Add(sound.clip.name, sound);
         }
     }
+
+    // void OnEnable()
+    // {
+    //     YandexGame.OpenFullAdEvent += SetSilence;
+    //     YandexGame.OpenVideoEvent += SetSilence;
+    //     YandexGame.CloseFullAdEvent += ResetSilence;
+    //     YandexGame.CloseVideoEvent += ResetSilence;
+    //     YandexGame.ErrorFullAdEvent += ResetSilence;
+    //     YandexGame.ErrorVideoEvent += ResetSilence;
+    // }
+
+    // void OnDisable()
+    // {
+    //     YandexGame.OpenFullAdEvent -= SetSilence;
+    //     YandexGame.OpenVideoEvent -= SetSilence;
+    //     YandexGame.CloseFullAdEvent -= ResetSilence;
+    //     YandexGame.CloseVideoEvent -= ResetSilence;
+    //     YandexGame.ErrorFullAdEvent -= ResetSilence;
+    //     YandexGame.ErrorVideoEvent -= ResetSilence;
+    // }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        Silence(!hasFocus || (YandexGame.SDKEnabled && YandexGame.nowAdsShow));
+    }
+
+    void OnApplicationPause(bool isPaused)
+    {
+        Silence(isPaused || (YandexGame.SDKEnabled && YandexGame.nowAdsShow));
+    }
+
+    public void Silence(bool silence)
+    {
+        AudioListener.pause = silence;
+        AudioListener.volume = silence ? 0 : 1;
+        // mixer.SetFloat("MasterVolume", silence ? 0 : initialVolume);
+        // initialVolume = YandexGame.savesData.masterVolume;
+    }
+
+    public void SetSilence() => Silence(true);
+    public void ResetSilence() => Silence(false);
 
     public bool IsPlaying(string soundName)
     {

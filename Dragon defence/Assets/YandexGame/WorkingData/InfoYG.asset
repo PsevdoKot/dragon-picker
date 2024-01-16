@@ -237,35 +237,6 @@ MonoBehaviour:
     it: []
     de: []
     hi: []
-  fontsTMP:
-    defaultFont: []
-    ru: []
-    en: []
-    tr: []
-    az: []
-    be: []
-    he: []
-    hy: []
-    ka: []
-    et: []
-    fr: []
-    kk: []
-    ky: []
-    lt: []
-    lv: []
-    ro: []
-    tg: []
-    tk: []
-    uk: []
-    uz: []
-    es: []
-    pt: []
-    ar: []
-    id: []
-    ja: []
-    it: []
-    de: []
-    hi: []
   fontsSizeCorrect:
     ru: 
     en: 
@@ -322,4 +293,4 @@ MonoBehaviour:
   pixelRatioEnable: 0
   pixelRatioValue: 1
   SDKStartDelay: 0
-  staticRBTInGame: 0
+  staticRBTInGame: 1

@@ -69,6 +69,7 @@ public class AirTotem : Totem
     public override void PrepareAction()
     {
         TargetSelection.Instance.StartTargetSelection(this);
+        PlayerButton.Instance.Show();
     }
 
     public override void Action(GameObject target)
@@ -89,5 +90,6 @@ public class AirTotem : Totem
         }
 
         AudioManager.Instance.Play("air-totem-action");
+        PlayerButton.Instance.Hide();
     }
 }

@@ -32,8 +32,8 @@ public class DragonBar : MonoBehaviour
             healthBar.SetActive(true);
         }
 
-        var dragonPosOnScreen = Camera.main.WorldToScreenPoint(dragon.transform.position);
-        rectTransform.anchoredPosition = new Vector3(dragonPosOnScreen.x + offset.x, dragonPosOnScreen.y + offset.y, 0);
+        // var dragonPosOnScreen = Camera.main.WorldToScreenPoint(dragon.transform.position);
+        // rectTransform.anchoredPosition = new Vector3(dragonPosOnScreen.x + offset.x, dragonPosOnScreen.y + offset.y, 0);
 
         health.fillAmount = (float)dragon.HP / Dragon.MaxHP;
     }

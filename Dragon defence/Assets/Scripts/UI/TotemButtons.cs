@@ -11,10 +11,13 @@ public class TotemButtons : MonoBehaviour
 
     private TotemButton[] buttons;
     [SerializeField] private GameObject buttonPrefab;
-    [SerializeField] public int buttonsCount { get; private set; } = 6;
+
+    public int buttonsCount { get; private set; } = 6;
+
+    [SerializeField] private Vector2 offset;
 
     private readonly Dictionary<int, float> xButtonPosByPlaceId = new()
-        { {0, 270}, {1, 165}, {2, 60}, {3, -50}, {4, -160}, {5, -270} };
+        { {0, 475}, {1, 380}, {2, 285}, {3, 190}, {4, 95}, {5, 0} };
 
     void Start()
     {
@@ -32,6 +35,13 @@ public class TotemButtons : MonoBehaviour
         var buttonGO = Instantiate(buttonPrefab, transform);
         buttonGO.transform.localPosition = new Vector3(xButtonPosByPlaceId[placeId], 0, 0);
 
+        // var buttonGO = Instantiate(buttonPrefab, transform); x -75 xsize 0.95
+        // var rectTransform = buttonGO.GetComponent<RectTransform>();
+        // var totemXLocalPos = TotemsRow.Instance.xTotemLocalPosByPlaceId[placeId];
+        // var totemPos = TotemsRow.Instance.transform.position + new Vector3(totemXLocalPos, 0, 0);
+        // var totemPosOnScreen = Camera.main.WorldToScreenPoint(totemPos);
+        // rectTransform.anchoredPosition = new Vector3(totemPosOnScreen.x + offset.x, totemPosOnScreen.y + offset.y, 0);
+
         var buttonScript = buttonGO.GetComponent<TotemButton>();
         buttonScript.Init(placeId);
         buttons[placeId] = buttonScript;
@@ -40,12 +50,17 @@ public class TotemButtons : MonoBehaviour
     public void HideButton(int placeId)
     {
         buttons[placeId].Hide();
-        TotemsUI.Instance.CreateTotemUI(placeId);
+        StartCoroutine(TotemsUI.Instance.CreateTotemUI(placeId));
     }
 
     public void ShowButton(int placeId)
     {
         buttons[placeId].Show();
         TotemsUI.Instance.RemoveTotemUI(placeId);
+    }
+
+    public void ActiveButton(int placeId)
+    {
+        buttons[placeId].Active();
     }
 }

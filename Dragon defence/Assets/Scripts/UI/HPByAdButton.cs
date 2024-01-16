@@ -36,6 +36,13 @@ public class HPByAdButton : MonoBehaviour
             return;
         }
 
+        if (Player.Instance.HP < 0)
+        {
+            Destroy(hpByAdPanelGO);
+            Destroy(gameObject);
+            return;
+        }
+
         var enabled = ((float)Player.Instance.HP / Player.MaxHP) < 0.2f;
         button.enabled = enabled;
         image.enabled = enabled;

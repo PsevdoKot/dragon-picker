@@ -20,7 +20,11 @@ public class PlayerScoreManager : MonoBehaviour
     public void ChangePlayerScore(int changeAmount)
     {
         YandexGame.savesData.totalScore += changeAmount;
-        YandexGame.NewLeaderboardScores("TOPPlayersScore", YandexGame.savesData.totalScore);
+        YandexGame.savesData.totalScore = (int)Mathf.Clamp(GetPlayerScore(), 0, Mathf.Infinity);
         YandexGame.SaveProgress();
+		if (YandexGame.auth)
+        {
+            YandexGame.NewLeaderboardScores("TOPPlayersScore", YandexGame.savesData.totalScore);
+        }
     }
 }

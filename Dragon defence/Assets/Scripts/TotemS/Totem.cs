@@ -52,6 +52,7 @@ public abstract class Totem : MonoBehaviour
     protected virtual void ShowReadiness()
     {
         isReady = true;
+        TotemButtons.Instance.ActiveButton(placeId);
     }
 
     public abstract void PrepareAction();
@@ -59,6 +60,7 @@ public abstract class Totem : MonoBehaviour
     public virtual void Action(GameObject target)
     {
         isReady = false;
+        TotemButtons.Instance.HideButton(placeId);
     }
 
     public IEnumerator AddShieldAmount(int amount, float duration)

@@ -8,27 +8,34 @@ public class PlayerInfo : MonoBehaviour
 {
     public static PlayerInfo Instance;
 
-    [SerializeField] private TextMeshProUGUI playerNameTextGUI;
     [SerializeField] private TextMeshProUGUI scoreTextGUI;
 
-    private void onEnable() => YandexGame.GetDataEvent += LoadDataFromSave;
-    private void onDisable() => YandexGame.GetDataEvent -= LoadDataFromSave;
+    void OnEnable() => YandexGame.GetDataEvent += LoadDataFromSave;
+    void OnDisable() => YandexGame.GetDataEvent -= LoadDataFromSave;
 
     void Awake()
     {
         Instance = this;
+        Invoke("LoadDataFromSave", 4f);
     }
 
     private void LoadDataFromSave()
     {
-        Debug.Log(scoreTextGUI);
-        Debug.Log(PlayerScoreManager.Instance);
-        scoreTextGUI.text = PlayerScoreManager.Instance.GetPlayerScore().ToString();
-        playerNameTextGUI.text = YandexGame.playerName;
+        try
+        {
+            if (YandexGame.SDKEnabled)
+            {
+                scoreTextGUI.text = PlayerScoreManager.Instance.GetPlayerScore().ToString();
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("Не удалось загрузить количество очков");
+        }
     }
 
     public void UpdateScoreAmount()
     {
-        scoreTextGUI.text = PlayerScoreManager.Instance.GetPlayerScore().ToString();
+        LoadDataFromSave();
     }
 }

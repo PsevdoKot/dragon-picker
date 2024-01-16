@@ -11,24 +11,26 @@ public class ScoresByAdPanel : MonoBehaviour
 
     [SerializeField] private int givenScoreAmount;
 
-    void Start()
-    {
-
-    }
-
     void OnEnable()
     {
+        YandexGame.CloseVideoEvent += GiveReward;
         confirmButton.onClick.AddListener(HandleConfirmButtonClick);
         denyButton.onClick.AddListener(HandleDenyButtonClick);
     }
 
     void OnDisable()
     {
+        YandexGame.CloseVideoEvent -= GiveReward;
         confirmButton.onClick.RemoveAllListeners();
         denyButton.onClick.RemoveAllListeners();
     }
 
     private void HandleConfirmButtonClick()
+    {
+        YandexGame.RewVideoShow(0);
+    }
+
+    private void GiveReward()
     {
         PlayerScoreManager.Instance.ChangePlayerScore(givenScoreAmount);
         PlayerInfo.Instance.UpdateScoreAmount();

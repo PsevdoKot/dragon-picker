@@ -56,7 +56,8 @@ public class Pause : MonoBehaviour
 
     public void LoadMenu()
     {
-        AudioManager.Instance.Stop("fight-music");
+        Time.timeScale = 1;
+		AudioManager.Instance.Stop("fight-music");
         AudioManager.Instance.Play("menu-click");
         loadingPanelGO.SetActive(true);
         SceneManager.LoadSceneAsync("Menu");

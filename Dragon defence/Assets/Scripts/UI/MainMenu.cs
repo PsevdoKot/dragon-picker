@@ -8,6 +8,7 @@ using YG;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private AudioMixer mixer;
+    // [SerializeField] private GameObject authButtonGO;
     [SerializeField] private GameObject loadingInfoGO;
     [SerializeField] private GameObject settingsMenuGO;
 
@@ -16,6 +17,23 @@ public class MainMenu : MonoBehaviour
         LoadSettings();
 
         AudioManager.Instance.Play("main-menu-music");
+
+        Invoke("CheckAuth", 1f);
+    }
+
+    private void CheckAuth()
+    {
+        if (!YandexGame.SDKEnabled) return;
+
+        // if (!YandexGame.auth)
+        // {
+        //     authButtonGO.SetActive(true);
+        //     Invoke("CheckAuth", 1f);
+        // }
+        // else
+        // {
+        //     authButtonGO.SetActive(false);
+        // }
     }
 
     private void LoadSettings()
@@ -31,6 +49,7 @@ public class MainMenu : MonoBehaviour
         loadingInfoGO.SetActive(true);
         SceneManager.LoadSceneAsync("Menu");
     }
+
     public void OpenSettings()
     {
         CursorManager.Instance.ChangeCursorType(CursorType.Standart);
@@ -38,11 +57,10 @@ public class MainMenu : MonoBehaviour
         settingsMenuGO.SetActive(true);
     }
 
-    public void Exit()
-    {
-        CursorManager.Instance.ChangeCursorType(CursorType.Standart);
-        Application.Quit();
-    }
+    // public void ShowAuthDialog()
+    // {
+    //     CheckYGConnect.Instance.ShowAuthDialog();
+    // }
 
     void OnDestroy()
     {

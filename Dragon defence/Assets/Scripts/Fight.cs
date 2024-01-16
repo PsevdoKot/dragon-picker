@@ -82,8 +82,7 @@ public class Fight : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeForWin);
 
         GiveRewardToPlayer(true);
-        loadingPanelGO.SetActive(true);
-        SceneManager.LoadSceneAsync("Menu");
+        LoadMenu();
     }
 
     public IEnumerator PlayerDefeat()
@@ -98,8 +97,17 @@ public class Fight : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeForDefeat);
 
         GiveRewardToPlayer(false);
+        LoadMenu();
+    }
+
+    private void LoadMenu()
+    {
         loadingPanelGO.SetActive(true);
         SceneManager.LoadSceneAsync("Menu");
+        // if (Random.Range(0, 3) == 0)
+        // {
+        //     YandexGame.FullscreenShow();
+        // }
     }
 
     private void GiveRewardToPlayer(bool win)

@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
         }
 
         HP -= damageAmount;
+        HP = Mathf.Clamp(HP, 0, MaxHP);
         if (HP > 0)
         {
             anim.SetTrigger("hitted");

@@ -5,28 +5,26 @@ using YG;
 
 public class CheckYGConnect : MonoBehaviour
 {
-    private void OnEnable() => YandexGame.GetDataEvent += CheckSDK;
-    private void OnDisable() => YandexGame.GetDataEvent -= CheckSDK;
+    public static CheckYGConnect Instance;
 
-    void Start()
+    void Awake()
     {
-        if (YandexGame.SDKEnabled)
-        {
-            CheckSDK();
-        }
+        Instance = this;
     }
 
-    void Update()
-    {
+    // void Start()
+    // {
+    //     if (YandexGame.SDKEnabled)
+    //     {
+    //         ShowAuthDialog();
+    //     }
+    // }
 
-    }
-
-    private void CheckSDK()
-    {
-        if (!YandexGame.auth)
-        {
-            YandexGame.AuthDialog();
-        }
-
-    }
+    // public void ShowAuthDialog()
+    // {
+    //     if (YandexGame.SDKEnabled && !YandexGame.auth)
+    //     {
+    //         YandexGame.AuthDialog();
+    //     }
+    // }
 }

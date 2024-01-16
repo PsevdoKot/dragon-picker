@@ -15,7 +15,8 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private TextMeshProUGUI buttonText;
 
     private Color initialColor;
-    private Color hideColor;
+    [SerializeField] private Color hideColor;
+    [SerializeField] private Color activeColor;
     private string initialText;
     private int placeId;
 
@@ -31,7 +32,6 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         buttonText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
         initialColor = buttonImage.color;
-        hideColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
         initialText = buttonText.text;
         button.onClick.AddListener(HandleButtonClick);
     }
@@ -74,6 +74,12 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void Show()
     {
         buttonImage.color = initialColor;
+        buttonText.text = initialText;
+    }
+
+    public void Active()
+    {
+        buttonImage.color = activeColor;
         buttonText.text = initialText;
     }
 

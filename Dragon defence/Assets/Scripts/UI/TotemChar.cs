@@ -14,6 +14,8 @@ public class TotemChar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI upgradePriceTextGUI;
     [SerializeField] private Button upgradeButton;
 
+    private bool wasEnabled;
+    private int currentPrice = 0;
     private Color standartColor = new Color(1f, 1f, 1f);
     private Color disabledColor = new Color(0.7f, 0.7f, 0.7f, 0.7f);
     [SerializeField] private TotemType totemType;
@@ -24,6 +26,13 @@ public class TotemChar : MonoBehaviour
         upgradeButtonTextGUI = upgradeButton.GetComponentInChildren<TextMeshProUGUI>();
         upgradeButtonImage = upgradeButton.GetComponentInChildren<Image>();
         UpdateCharInfo();
+    }
+
+    void Update()
+    {
+        var enabled = currentPrice <= PlayerScoreManager.Instance.GetPlayerScore();
+        upgradeButton.enabled = enabled;
+        upgradeButtonImage.color = enabled ? standartColor : disabledColor;
     }
 
     void OnEnable()
@@ -56,12 +65,9 @@ public class TotemChar : MonoBehaviour
         else
         {
             var upgradeAmount = (float)totalCharData.Item2;
+            currentPrice = (int)totalCharData.Item3;
             upgradeAmountTextGUI.text = $"{(upgradeAmount > 0 ? '+' : '-')}{Mathf.Abs(upgradeAmount)}";
-            upgradePriceTextGUI.text = totalCharData.Item3.ToString();
-
-            var enabled = totalCharData.Item3 <= PlayerScoreManager.Instance.GetPlayerScore();
-            upgradeButton.enabled = enabled;
-            upgradeButtonImage.color = enabled ? standartColor : disabledColor;
+            upgradePriceTextGUI.text = currentPrice.ToString();
         }
     }
 
